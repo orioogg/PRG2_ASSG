@@ -1,4 +1,9 @@
-﻿using PRG2_ASSG;
+﻿//==========================================================
+// Student Number : S10269334
+// Student Name : Janice Oh Shi Ting
+// Partner Name : Murray Wong Kah Weng
+//==========================================================
+using PRG2_ASSG;
 Terminal terminal = new Terminal("Changi Airport Terminal 5");
 Dictionary<string, Airline> airlineDictionary = new Dictionary<string, Airline>();
 LoadAirlines();
