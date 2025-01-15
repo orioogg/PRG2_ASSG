@@ -55,6 +55,13 @@ namespace PRG2_ASSG
         //{
 
         //}
-        
+        public override string ToString()
+        {
+            return "Terminal Name: " + TerminalName +
+                   "Airlines: " + Airlines +
+                   "Flights: " + Flights +
+                   "Boarding Gates: " + BoardingGates +
+                   "Gate Fees: " + GateFees;
+        }
     }
 }
