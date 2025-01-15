@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PRG2_ASSG
 {
-    internal class BoardingGate
+    class BoardingGate
     {
+
     }
 }
