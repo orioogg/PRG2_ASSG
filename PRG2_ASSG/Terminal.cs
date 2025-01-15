@@ -13,6 +13,7 @@ namespace PRG2_ASSG
         public Dictionary<string, Flight> Flights { get; set; } = new Dictionary<string, Flight>();
         public Dictionary<string, BoardingGate> BoardingGates { get; set; } = new Dictionary<string, BoardingGate>();
         public Dictionary<string, double> GateFees { get; set; } = new Dictionary<string, double>();
+        //constructor
         public Terminal(string terminalName,Dictionary<string, Airline>airlines = null,Dictionary<string, Flight> flights = null,Dictionary<string, BoardingGate> boardingGates = null,Dictionary<string, double> gateFees = null)
         {
             TerminalName = terminalName;
@@ -42,6 +43,18 @@ namespace PRG2_ASSG
             BoardingGates[boardingGate.GateName] = boardingGate;
             return true;
         }
+        public Airline GetAirline(Airline airline)
+        {
+            if (Airlines.ContainsKey(airline.Code))
+            {
+                return Airlines[airline.Code];
+            }
+            return null;
+        }
+        //public void PrintAirlineFees()
+        //{
 
+        //}
+        
     }
 }

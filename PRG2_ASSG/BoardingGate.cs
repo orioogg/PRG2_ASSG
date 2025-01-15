@@ -21,5 +21,14 @@ namespace PRG2_ASSG
             SupportLWTT = supportLWTT;
             Flight = flight;
         }
+        //public double CalculateFees() { }
+        public override string ToString()
+        {
+            return "Gate Name: " + GateName +
+                   "Support CFFT: " + SupportCFFT +
+                   "Support DDJB: " + SupportDDJB +
+                   "Support LWTT: " + SupportLWTT +
+                   "Flight: " + Flight;
+        }
     }
 }
