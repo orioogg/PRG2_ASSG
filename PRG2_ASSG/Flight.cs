@@ -30,7 +30,7 @@ namespace PRG2_ASSG
             Origin = origin;
             Destination = destination;
             Status = status;
-            ExpectedTime = DateTime.Now;
+            ExpectedTime = expectedTime;
         }
 
         public abstract double CalculateFees();
