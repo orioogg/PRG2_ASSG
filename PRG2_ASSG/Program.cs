@@ -4,11 +4,13 @@
 // Partner Name : Murray Wong Kah Weng
 //==========================================================
 using PRG2_ASSG;
-Dictionary<string, Airline> airlineDictionary = new Dictionary<string, Airline>();
-Dictionary<string, BoardingGate> boardingGate = new Dictionary<string, BoardingGate>();
+
+
+
+Terminal terminal = new Terminal("Terminal 5");
 LoadAirlines();
 LoadBoardingGate();
-Console.WriteLine($"Loading Airlines...\r\n{airlineDictionary.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{boardingGate.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n30 Flights Loaded!\r\n");
+Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n30 Flights Loaded!\r\n");
 Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\n\r\nPlease select your option:\r\n");
 void LoadAirlines()
 {
@@ -29,10 +31,14 @@ void LoadAirlines()
                     string name = airlineDetails[1];
 
                     // Check for duplicates before adding
-                    if (!airlineDictionary.ContainsKey(code))
+                   if(terminal.Airlines.ContainsKey(code))
+                    {
+                        Console.WriteLine($"Duplicate airline code: {code}");
+                    }
+                    else
                     {
                         Airline airline = new Airline(name, code);
-                        airlineDictionary[code] = airline; // Add to dictionary
+                        terminal.Airlines.Add(code, airline); // Add to the Dictionary Terminal
                     }
                 }
             }
@@ -77,7 +83,7 @@ void LoadBoardingGate()
                     // Create BoardingGate object
                     BoardingGate gate = new BoardingGate(gateName, supportsDDJB, supportsCFFT, supportsLWTT);
 
-                    boardingGate[gateName] = gate;
+                    terminal.AddBoardingGate(gate);// Add to the Dictionary Terminal
 
                 }
                 catch (Exception ex)

@@ -24,7 +24,7 @@ namespace PRG2_ASSG
             TerminalName = terminalName;
             Airlines = airlines=new Dictionary<string,Airline>();
             Flights = flights;
-            BoardingGates = new Dictionary<string,BoardingGate>();
+            BoardingGates =boardingGates =new Dictionary<string,BoardingGate>();
             GateFees = gateFees;
         }
         public bool AddAirline(Airline airline)
