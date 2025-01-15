@@ -17,5 +17,30 @@ namespace PRG2_ASSG
             Code = code;
             Flights = flights;
         }
+        public bool AddFlight(Flight flight)
+        {
+            if (Flights.ContainsKey(flight.FlightNumber))
+            {
+                return false;
+            }
+            Flights[flight.FlightNumber] = flight;
+            return true;
+        }
+        //public double CalculateFees() { }
+        public bool RemoveFlight(Flight flight)
+        {
+            if (Flights.ContainsKey(flight.FlightNumber))
+            {
+                Flights.Remove(flight.FlightNumber);
+                return true;
+            }
+            return false;
+        }
+        public override string ToString()
+        {
+            return "Name: " + Name +
+                   "Code: " + Code +
+                   "Flights: " + Flights;
+        }
     }
 }
