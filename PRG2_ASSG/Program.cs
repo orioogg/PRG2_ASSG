@@ -8,39 +8,30 @@ void LoadAirlines()
 {
     try
     {
-        using (StreamReader sr = new StreamReader("airlines.csv"))
+        using (StreamReader reader = new StreamReader("airlines.csv"))
         {
-            string line;
-            while ((line = sr.ReadLine()) != null)
+            string? line = reader.ReadLine(); // Read the header line 
+
+            while ((line = reader.ReadLine()) != null) // Read subsequent lines
             {
                 string[] airlineDetails = line.Split(',');
 
-                // Validate the line
-                if (airlineDetails.Length != 2)
+                
+                if (airlineDetails.Length >= 2) // Check if there are at least two columns
                 {
-                    Console.WriteLine($"Invalid line: {line}");
-                    continue;
-                }
+                    string code = airlineDetails[0];
+                    string name = airlineDetails[1];
 
-                string code = airlineDetails[0];
-                string name = airlineDetails[1];
-
-                // Create Airline object
-                Airline airline = new Airline(name, code);
-
-                // Add to terminal and dictionary
-                terminal.AddAirline(airline);
-
-                if (!airlineDictionary.ContainsKey(code))
-                {
-                    airlineDictionary[code] = airline;
-                }
-                else
-                {
-                    Console.WriteLine($"Duplicate airline code found: {code}");
+                    // Check for duplicates before adding
+                    if (!airlineDictionary.ContainsKey(code))
+                    {
+                        Airline airline = new Airline(name, code);
+                        airlineDictionary[code] = airline; // Add to dictionary
+                    }
                 }
             }
         }
+        
     }
     catch (Exception e)
     {
@@ -49,20 +40,16 @@ void LoadAirlines()
 }
 void LoadBoardingGate()
 {
+    try
     {
         using (StreamReader sr = new StreamReader("boardinggates.csv"))
         {
-            string line;
-            bool isFirstLine = true;
+            string? line = sr.ReadLine(); // Read the header line 
+           
 
             while ((line = sr.ReadLine()) != null)
             {
-                // Skip the header row
-                if (isFirstLine)
-                {
-                    isFirstLine = false;
-                    continue;
-                }
+                
 
                 string[] details = line.Split(',');
 
@@ -73,20 +60,33 @@ void LoadBoardingGate()
                     continue;
                 }
 
-                // Parse gate details
-                string gateName = details[0];
-                bool supportsDDJB = Convert.ToBoolean(details[1]);
-                bool supportsCFFT = Convert.ToBoolean(details[2]);
-                bool supportsLWTT = Convert.ToBoolean(details[3]);
+                try
+                {
+                    // Parse gate details
+                    string gateName = details[0];
+                    bool supportsDDJB = Convert.ToBoolean(details[1]);
+                    bool supportsCFFT = Convert.ToBoolean(details[2]);
+                    bool supportsLWTT = Convert.ToBoolean(details[3]);
 
-                // Create BoardingGate object
-                BoardingGate gate = new BoardingGate(gateName, supportsDDJB, supportsCFFT, supportsLWTT);
+                    // Create BoardingGate object
+                    BoardingGate gate = new BoardingGate(gateName, supportsDDJB, supportsCFFT, supportsLWTT);
 
-                // Add to terminal
-                terminal.AddBoardingGate(gate);
+                    // Add to terminal
+                    terminal.AddBoardingGate(gate);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error parsing line: {line}. Details: {ex.Message}");
+                }
             }
         }
+
        
+       
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine($"An error occurred while loading boarding gates: {e.Message}");
     }
 }
 
