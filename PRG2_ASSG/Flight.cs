@@ -20,7 +20,7 @@ namespace PRG2_ASSG
 
         //constructor
 
-        public Flight(string flightNumber, string origin, string destination, string status)
+        public Flight(string flightNumber, string origin, string destination, string status, DateTime expectedTime)
         {
             FlightNumber = flightNumber;
             Origin = origin;
