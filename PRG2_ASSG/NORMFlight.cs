@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//==========================================================
+// Student Number : S10269334
+// Student Name : Janice Oh Shi Ting
+// Partner Name : Murray Wong Kah Weng
+//==========================================================
 namespace PRG2_ASSG
 {
     class NORMFlight : Flight
