@@ -32,6 +32,16 @@ namespace PRG2_ASSG
             Airlines[airline.Code] = airline;
             return true; 
         }
+        public bool AddBoardingGate(BoardingGate boardingGate)
+        {
+            if (BoardingGates.ContainsKey(boardingGate.GateName))
+            {
+                return false;
+            }
+
+            BoardingGates[boardingGate.GateName] = boardingGate;
+            return true;
+        }
 
     }
 }
