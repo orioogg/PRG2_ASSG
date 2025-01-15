@@ -13,22 +13,19 @@ namespace PRG2_ASSG
         public bool SupportDDJB { get; set; }
         public bool SupportLWTT { get; set; }
         public Flight Flight { get; set; }
-        public BoardingGate(string gateName, bool supportCFFT, bool supportDDJB, bool supportLWTT, Flight flight)
+        public BoardingGate(string gateName, bool supportCFFT, bool supportDDJB, bool supportLWTT)
         {
             GateName = gateName;
             SupportCFFT = supportCFFT;
             SupportDDJB = supportDDJB;
             SupportLWTT = supportLWTT;
-            Flight = flight;
+            
         }
         //public double CalculateFees() { }
         public override string ToString()
         {
-            return "Gate Name: " + GateName +
-                   "Support CFFT: " + SupportCFFT +
-                   "Support DDJB: " + SupportDDJB +
-                   "Support LWTT: " + SupportLWTT +
-                   "Flight: " + Flight;
+            return $"{GateName}: DDJB={SupportDDJB}, CFFT={SupportCFFT}, LWTT={SupportLWTT}";
+
         }
     }
 }

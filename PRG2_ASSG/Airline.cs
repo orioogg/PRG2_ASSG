@@ -10,12 +10,12 @@ namespace PRG2_ASSG
     {
         public string Name { get; set; }
         public string Code { get; set; }
-        public Dictionary<string,Flight> Flights { get; set; } = new Dictionary<string, Flight>();
-        public Airline(string name, string code, Dictionary<string, Flight> flights)
+        public Dictionary<string, Flight> Flights { get; set; } = new Dictionary<string, Flight>();
+        public Airline(string name, string code)
         {
             Name = name;
             Code = code;
-            Flights = flights;
+
         }
         public bool AddFlight(Flight flight)
         {
@@ -38,9 +38,8 @@ namespace PRG2_ASSG
         }
         public override string ToString()
         {
-            return "Name: " + Name +
-                   "Code: " + Code +
-                   "Flights: " + Flights;
+            return $"Name: {Name} | Code: {Code}";
         }
     }
 }
+

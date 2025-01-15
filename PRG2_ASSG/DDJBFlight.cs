@@ -10,19 +10,21 @@ using System.Threading.Tasks;
 //==========================================================
 namespace PRG2_ASSG
 {
-    class DDJBFlight : Flight
-    {
-        public double RequestFee { get; set; }
+    //{
+    //    class DDJBFlight : Flight
+    //    {
+    //        public double RequestFee { get; set; }
 
-        public Flight(string flightNumber, string origin, string destination, string status, DateTime expectedTime, double requestFee) : base(flightNumber, origin, destination, status, expectedTime)
-        {
-            RequestFee = requestFee;
-        }
+    //        public Flight(string flightNumber, string origin, string destination, string status, DateTime expectedTime, double requestFee) : base(flightNumber, origin, destination, status, expectedTime)
+    //        {
+    //            RequestFee = requestFee;
+    //        }
 
-        //public override double CalculateFee()
-        public override string ToString()
-        {
-            return base.ToString() + "Request Fee: " + RequestFee;
-        }
-    }
+    //        //public override double CalculateFee()
+    //        public override string ToString()
+    //        {
+    //            return base.ToString() + "Request Fee: " + RequestFee;
+    //        }
+    //    }
+    //}
 }

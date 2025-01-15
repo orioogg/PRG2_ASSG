@@ -22,9 +22,9 @@ namespace PRG2_ASSG
         public Terminal(string terminalName,Dictionary<string, Airline>airlines = null,Dictionary<string, Flight> flights = null,Dictionary<string, BoardingGate> boardingGates = null,Dictionary<string, double> gateFees = null)
         {
             TerminalName = terminalName;
-            Airlines = airlines;
+            Airlines = airlines=new Dictionary<string,Airline>();
             Flights = flights;
-            BoardingGates = boardingGates;
+            BoardingGates = new Dictionary<string,BoardingGate>();
             GateFees = gateFees;
         }
         public bool AddAirline(Airline airline)
@@ -60,13 +60,13 @@ namespace PRG2_ASSG
         //{
 
         //}
-        public override string ToString()
-        {
-            return "Terminal Name: " + TerminalName +
-                   "Airlines: " + Airlines +
-                   "Flights: " + Flights +
-                   "Boarding Gates: " + BoardingGates +
-                   "Gate Fees: " + GateFees;
-        }
+        //public override string ToString()
+        //{
+        //    return "Terminal Name: " + TerminalName +
+        //           "Airlines: " + Airlines +
+        //           "Flights: " + Flights +
+        //           "Boarding Gates: " + BoardingGates +
+        //           "Gate Fees: " + GateFees;
+        //}
     }
 }
