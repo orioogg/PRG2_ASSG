@@ -3,6 +3,7 @@ Terminal terminal = new Terminal("Changi Airport Terminal 5");
 Dictionary<string, Airline> airlineDictionary = new Dictionary<string, Airline>();
 LoadAirlines();
 LoadBoardingGate();
+//cw
 void LoadAirlines()
 {
     try
