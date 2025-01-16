@@ -27,18 +27,18 @@ namespace PRG2_ASSG
         }
 
 
-        public double CalculateFees() 
-        {
-            double baseFee = 300; // Base fee for the gate
-            if (Flight == null) return 0; // No flight, no fee
+        //public double CalculateFees() 
+        //{
+        //    double baseFee = 300; // Base fee for the gate
+        //    if (Flight == null) return 0; // No flight, no fee
 
-            // Calculate fees based on gate capabilities (not the flight)
-            if (SupportCFFT) baseFee += 150;
-            if (SupportDDJB) baseFee += 300;
-            if (SupportLWTT) baseFee += 500;
+        //    // Calculate fees based on gate capabilities (not the flight)
+        //    if (SupportCFFT) baseFee += 150;
+        //    if (SupportDDJB) baseFee += 300;
+        //    if (SupportLWTT) baseFee += 500;
 
-            return baseFee;
-        }
+        //    return baseFee;
+        //}
 
 
         public override string ToString()
