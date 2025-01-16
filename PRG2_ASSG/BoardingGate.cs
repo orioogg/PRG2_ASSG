@@ -23,9 +23,24 @@ namespace PRG2_ASSG
             SupportCFFT = supportCFFT;
             SupportDDJB = supportDDJB;
             SupportLWTT = supportLWTT;
-            
+            Flight = null;
         }
-        //public double CalculateFees() { }
+
+
+        public double CalculateFees() 
+        {
+            double baseFee = 300; // Base fee for the gate
+            if (Flight == null) return 0; // No flight, no fee
+
+            // Calculate fees based on gate capabilities (not the flight)
+            if (SupportCFFT) baseFee += 150;
+            if (SupportDDJB) baseFee += 300;
+            if (SupportLWTT) baseFee += 500;
+
+            return baseFee;
+        }
+
+
         public override string ToString()
         {
             return $"{GateName}: DDJB={SupportDDJB}, CFFT={SupportCFFT}, LWTT={SupportLWTT}";
