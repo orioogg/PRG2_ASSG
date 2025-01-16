@@ -76,12 +76,12 @@ void LoadBoardingGate()
                 {
                     // Parse gate details
                     string gateName = details[0];
-                    bool supportsDDJB = Convert.ToBoolean(details[1]);
-                    bool supportsCFFT = Convert.ToBoolean(details[2]);
+                    bool supportsCFFT = Convert.ToBoolean(details[1]);
+                    bool supportsDDJB = Convert.ToBoolean(details[2]);
                     bool supportsLWTT = Convert.ToBoolean(details[3]);
 
                     // Create BoardingGate object
-                    BoardingGate gate = new BoardingGate(gateName, supportsDDJB, supportsCFFT, supportsLWTT);
+                    BoardingGate gate = new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT);
 
                     terminal.AddBoardingGate(gate);// Add to the Dictionary Terminal
 
