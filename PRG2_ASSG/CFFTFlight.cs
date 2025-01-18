@@ -15,7 +15,7 @@ namespace PRG2_ASSG
     //    public double RequestFee { get; set; }
 
     //    //constructor
-    //    public Flight(string flightNumber, string origin, string destination, string status, DateTime expectedTime,double requestFee) : base (flightNumber, origin, destination, status, expectedTime)
+    //    public Flight(string flightNumber, string origin, string destination, DateTime expectedTime,double requestFee) : base (flightNumber, origin, destination,expectedTime)
     //    {
     //        RequestFee = requestFee;
     //    }
