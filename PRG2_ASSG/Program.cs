@@ -8,103 +8,106 @@ using PRG2_ASSG;
 
 
 Terminal terminal = new Terminal("Terminal 5");
-LoadAirlines();
-LoadBoardingGate();
-Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n30 Flights Loaded!\r\n");
-Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\n\r\nPlease select your option:\r\n");
-void LoadAirlines()
-{
-    try
-    {
-        using (StreamReader reader = new StreamReader("airlines.csv"))
-        {
-            string? line = reader.ReadLine(); // Read the header line 
-
-            while ((line = reader.ReadLine()) != null) // Read subsequent lines
-            {
-                string[] airlineDetails = line.Split(',');
-
-                
-                if (airlineDetails.Length >= 2) // Check if there are at least two columns
-                {
-                    string code = airlineDetails[0];
-                    string name = airlineDetails[1];
-
-                    // Check for duplicates before adding
-                   if(terminal.Airlines.ContainsKey(code))
-                    {
-                        Console.WriteLine($"Duplicate airline code: {code}");
-                    }
-                    else
-                    {
-                        Airline airline = new Airline(name, code);
-                        terminal.Airlines.Add(code, airline); // Add to the Dictionary Terminal
-                    }
-                }
-            }
-        }
-        
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine(e.Message);
-    }
-}
-void LoadBoardingGate()
-{
-    try
-    {
-        using (StreamReader sr = new StreamReader("boardinggates.csv"))
-        {
-            string? line = sr.ReadLine(); // Read the header line 
-           
-
-            while ((line = sr.ReadLine()) != null)
-            {
-                
-
-                string[] details = line.Split(',');
-
-                // Validate the row format
-                if (details.Length != 4)
-                {
-                    Console.WriteLine($"Invalid line: {line}");
-                    continue;
-                }
-
-                try
-                {
-                    // Parse gate details
-                    string gateName = details[0];
-                    bool supportsCFFT = Convert.ToBoolean(details[1]);
-                    bool supportsDDJB = Convert.ToBoolean(details[2]);
-                    bool supportsLWTT = Convert.ToBoolean(details[3]);
-
-                    // Create BoardingGate object
-                    BoardingGate gate = new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT);
-
-                    terminal.AddBoardingGate(gate);// Add to the Dictionary Terminal
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error parsing line: {line}. Details: {ex.Message}");
-                }
-            }
-        }
-
-       
-       
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine($"An error occurred while loading boarding gates: {e.Message}");
-    }
-}
-
 Dictionary<string, Flight> flightsDictionary = new Dictionary<string, Flight>();
 
-void LoadFlights()
+//LoadAirlines();
+//LoadBoardingGate();
+LoadFlights(flightsDictionary);
+//Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n30 Flights Loaded!\r\n");
+//Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\n\r\nPlease select your option:\r\n");
+//void LoadAirlines()
+//{
+//    try
+//    {
+//        using (StreamReader reader = new StreamReader("airlines.csv"))
+//        {
+//            string? line = reader.ReadLine(); // Read the header line 
+
+//            while ((line = reader.ReadLine()) != null) // Read subsequent lines
+//            {
+//                string[] airlineDetails = line.Split(',');
+
+                
+//                if (airlineDetails.Length >= 2) // Check if there are at least two columns
+//                {
+//                    string code = airlineDetails[0];
+//                    string name = airlineDetails[1];
+
+//                    // Check for duplicates before adding
+//                   if(terminal.Airlines.ContainsKey(code))
+//                    {
+//                        Console.WriteLine($"Duplicate airline code: {code}");
+//                    }
+//                    else
+//                    {
+//                        Airline airline = new Airline(name, code);
+//                        terminal.Airlines.Add(code, airline); // Add to the Dictionary Terminal
+//                    }
+//                }
+//            }
+//        }
+        
+//    }
+//    catch (Exception e)
+//    {
+//        Console.WriteLine(e.Message);
+//    }
+//}
+//void LoadBoardingGate()
+//{
+//    try
+//    {
+//        using (StreamReader sr = new StreamReader("boardinggates.csv"))
+//        {
+//            string? line = sr.ReadLine(); // Read the header line 
+           
+
+//            while ((line = sr.ReadLine()) != null)
+//            {
+                
+
+//                string[] details = line.Split(',');
+
+//                // Validate the row format
+//                if (details.Length != 4)
+//                {
+//                    Console.WriteLine($"Invalid line: {line}");
+//                    continue;
+//                }
+
+//                try
+//                {
+//                    // Parse gate details
+//                    string gateName = details[0];
+//                    bool supportsCFFT = Convert.ToBoolean(details[1]);
+//                    bool supportsDDJB = Convert.ToBoolean(details[2]);
+//                    bool supportsLWTT = Convert.ToBoolean(details[3]);
+
+//                    // Create BoardingGate object
+//                    BoardingGate gate = new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT);
+
+//                    terminal.AddBoardingGate(gate);// Add to the Dictionary Terminal
+
+//                }
+//                catch (Exception ex)
+//                {
+//                    Console.WriteLine($"Error parsing line: {line}. Details: {ex.Message}");
+//                }
+//            }
+//        }
+
+       
+       
+//    }
+//    catch (Exception e)
+//    {
+//        Console.WriteLine($"An error occurred while loading boarding gates: {e.Message}");
+//    }
+//}
+
+
+
+void LoadFlights(Dictionary<string,Flight> flightsDictionary) 
 {
     using (StreamReader sr = new StreamReader("flights.csv"))
     {
@@ -118,16 +121,16 @@ void LoadFlights()
             string destination = flights[2];
             DateTime expectedTime = Convert.ToDateTime(flights[3]);
 
-            if (flights.Length == 5)
+            if (flights.Length == 5)   //check if there is a special request code
             {
-                if (flights[4] == "DDJB")
+                if (flights[4] == "DDJB") 
                 {
                     Flight flight = new DDJBFlight(flightNumber, origin, destination,expectedTime);      
                     flightsDictionary.Add(flightNumber, flight);
                 }
                 else if (flights[4] == "CFFT")
                 {
-                    Flight flight = new CCFTFlight(flightNumber, origin, destination,expectedTime);
+                    Flight flight = new CFFTFlight(flightNumber, origin, destination,expectedTime);
                     flightsDictionary.Add(flightNumber, flight);
                 }
                 else if (flights[4] == "LWTT")
@@ -136,7 +139,7 @@ void LoadFlights()
                     flightsDictionary.Add(flightNumber, flight);
                 }
             }
-            else
+            else  //if there is no special request code
             {
                 Flight flight = new NORMFlight(flightNumber, origin, destination,expectedTime);
                 flightsDictionary.Add(flightNumber, flight);
@@ -145,3 +148,9 @@ void LoadFlights()
     }
 }
 
+void DisplayFlights()
+{
+    Console.WriteLine("=============================================\r\n" +
+        "List of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
+    Console.WriteLine("{0,-16} {1,-23} {2,-21} {3,-23} {4,-30}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time");  //write heading
+}
