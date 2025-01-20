@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 //==========================================================
 namespace PRG2_ASSG
 {
-    //class CFFTFlight : Flight
-    //{
-    //    public double RequestFee { get; set; }
+    class CFFTFlight : Flight
+    {
+        public double RequestFee { get; set; }
 
-    //    //constructor
-    //    public Flight(string flightNumber, string origin, string destination, DateTime expectedTime,double requestFee) : base (flightNumber, origin, destination,expectedTime)
-    //    {
-    //        RequestFee = requestFee;
-    //    }
+        //constructor
+        public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime) : base(flightNumber, origin, destination, expectedTime)
+        {
+            RequestFee = 150;
+        }
 
-    //    public override string ToString()
-    //    {
-    //        return base.ToString() + "Request Fee: " + RequestFee;
-    //    }
-    //}
+        public override string ToString()
+        {
+            return base.ToString() + "Request Fee: " + RequestFee;
+        }
+    }
 }

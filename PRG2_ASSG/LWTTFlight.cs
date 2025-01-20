@@ -10,23 +10,23 @@ using System.Threading.Tasks;
 //==========================================================
 namespace PRG2_ASSG
 {
-    //class LWTTFlight : Flight
-    //{
-    //    public double RequestFee { get; set; }
+    class LWTTFlight : Flight
+    {
+        public double RequestFee { get; set; }
 
-    //    //constructor 
-    //    public LWTTFlight(string flightNumber, string origin, string destination, string status, DateTime expectedTime, double requestFee) : base (flightNumber, origin, destination, status, expectedTime)
-    //    {
-    //        RequestFee = requestFee;
-    //    }
+        //constructor 
+        public LWTTFlight(string flightNumber, string origin, string destination,DateTime expectedTime) : base(flightNumber, origin, destination,expectedTime)
+        {
+            RequestFee = 500;
+        }
 
-    //    //public override double CalculateFees()
-    //    //{
+        //public override double CalculateFees()
+        //{
 
-    //    //}
-    //    public override string ToString()
-    //    {
-    //        return base.ToString() + "Request Fee: " + RequestFee;
-    //    }
-    //}
+        //}
+        public override string ToString()
+        {
+            return base.ToString() + "Request Fee: " + RequestFee;
+        }
+    }
 }
