@@ -168,4 +168,11 @@ void DisplayFlights()
 DisplayFlights();
 
 
-
+void AssignBoardingGate()
+{
+    Console.WriteLine("=============================================\r\n" +
+        "Assign a Boarding Gate to a Flight\r\n=============================================\r\n");
+    Console.Write("Enter Flight Number: ");
+    string flightNumber = Console.ReadLine();
+    Console.Write("Enter Boarding Gate Name:");
+}
