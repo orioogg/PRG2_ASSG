@@ -24,12 +24,13 @@ namespace PRG2_ASSG
 
         //constructor
 
-        public Flight(string flightNumber, string origin, string destination, DateTime expectedTime)
+        public Flight(string flightNumber, string origin, string destination, DateTime expectedTime, string status)
         {
             FlightNumber = flightNumber;
             Origin = origin;
             Destination = destination;
             ExpectedTime = expectedTime;
+            Status = "On Time";
         }
 
         //public abstract double CalculateFees();
