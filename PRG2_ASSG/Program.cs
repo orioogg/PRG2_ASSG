@@ -147,10 +147,6 @@ void LoadFlights()
             }
 
         }
-        foreach (var kvp in terminal.Flights)
-        {
-            Console.WriteLine(kvp.Value.ToString());
-        }
     }
 }
 
