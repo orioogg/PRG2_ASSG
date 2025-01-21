@@ -15,7 +15,7 @@ namespace PRG2_ASSG
         public double RequestFee { get; set; }
 
         //constructor
-        public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime) : base(flightNumber, origin, destination, expectedTime)
+        public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status) : base(flightNumber, origin, destination, expectedTime, status)
         {
             RequestFee = 150;
         }
