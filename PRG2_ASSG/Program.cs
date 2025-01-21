@@ -8,11 +8,11 @@ using PRG2_ASSG;
 
 
 Terminal terminal = new Terminal("Terminal 5");
-Dictionary<string, Flight> flightsDictionary = new Dictionary<string, Flight>();
+
 
 //LoadAirlines();
 //LoadBoardingGate();
-LoadFlights(flightsDictionary);
+LoadFlights();
 //Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n30 Flights Loaded!\r\n");
 //Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\n\r\nPlease select your option:\r\n");
 //void LoadAirlines()
@@ -107,7 +107,7 @@ LoadFlights(flightsDictionary);
 
 
 
-void LoadFlights(Dictionary<string,Flight> flightsDictionary) 
+void LoadFlights() 
 {
     using (StreamReader sr = new StreamReader("flights.csv"))
     {
@@ -126,23 +126,23 @@ void LoadFlights(Dictionary<string,Flight> flightsDictionary)
                 if (flights[4] == "DDJB") 
                 {
                     Flight flight = new DDJBFlight(flightNumber, origin, destination,expectedTime);      
-                    flightsDictionary.Add(flightNumber, flight);
+                    terminal.Flights.Add(flightNumber, flight);
                 }
                 else if (flights[4] == "CFFT")
                 {
                     Flight flight = new CFFTFlight(flightNumber, origin, destination,expectedTime);
-                    flightsDictionary.Add(flightNumber, flight);
+                    terminal.Flights.Add(flightNumber, flight);
                 }
                 else if (flights[4] == "LWTT")
                 {
                     Flight flight = new LWTTFlight(flightNumber, origin, destination,expectedTime);
-                    flightsDictionary.Add(flightNumber, flight);
+                    terminal.Flights.Add(flightNumber, flight);
                 }
             }
             else  //if there is no special request code
             {
                 Flight flight = new NORMFlight(flightNumber, origin, destination,expectedTime);
-                flightsDictionary.Add(flightNumber, flight);
+                terminal.Flights.Add(flightNumber, flight);
             }          
         }
     }
@@ -150,7 +150,13 @@ void LoadFlights(Dictionary<string,Flight> flightsDictionary)
 
 void DisplayFlights()
 {
-    Console.WriteLine("=============================================\r\n" +
-        "List of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
-    Console.WriteLine("{0,-16} {1,-23} {2,-21} {3,-23} {4,-30}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time");  //write heading
+    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
+    Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
+    foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
+    {
+        string airlineCode = flight.Value.FlightNumber.Split(' ')[0];
+        Airline airline = terminal.GetAirline(airlineCode);
+        Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
+    }
 }
+
