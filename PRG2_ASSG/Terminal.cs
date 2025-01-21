@@ -59,7 +59,7 @@ namespace PRG2_ASSG
                 flightcode = arr[0];
                 foreach (var kvp in Airlines)
                 {
-                    if (kvp.Value.Name == flightcode)
+                    if (kvp.Value.Code == flightcode)
                     {
                         Airline airline1 = kvp.Value;
                         return airline1;

@@ -31,8 +31,8 @@ void LoadAirlines()
 
                 if (airlineDetails.Length >= 2) // Check if there are at least two columns
                 {
-                    string code = airlineDetails[0];
-                    string name = airlineDetails[1];
+                    string code = airlineDetails[1];
+                    string name = airlineDetails[0];
 
                     // Check for duplicates before adding
                    if(terminal.Airlines.ContainsKey(code))
@@ -161,7 +161,7 @@ void DisplayFlights()
     foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
     {
         Airline airline1 = terminal.GetAirline(flight.Value);
-        Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Code,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
+        Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
     }
 }
 
