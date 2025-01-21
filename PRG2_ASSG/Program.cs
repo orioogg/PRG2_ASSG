@@ -15,19 +15,19 @@ LoadBoardingGate();
 LoadFlights();
 
 
-while (true)
-{
-    Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\nPlease select your option:");
-    int option = Convert.ToInt32(Console.ReadLine());
-    if (option == 1)
-    {
-        DisplayFlights();
-    }
-    else if (option == 2) 
-    {
-        printboardinggate();
-    }
-}
+//while (true)
+//{
+//    Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\nPlease select your option:");
+//    int option = Convert.ToInt32(Console.ReadLine());
+//    if (option == 1)
+//    {
+//        DisplayFlights();
+//    }
+//    else if (option == 2) 
+//    {
+//        printboardinggate();
+//    }
+//}
 
 void LoadAirlines()
 {
@@ -191,20 +191,51 @@ void AssignBoardingGate()
         "Assign a Boarding Gate to a Flight\r\n=============================================\r\n");
 
     //prompt user for flight number
-    Console.Write("Enter Flight Number: "); 
+    Console.Write("Enter Flight Number: ");
     string? flightNumber = Console.ReadLine();
-    foreach (var flight in terminal.Flights)
+
+    Console.Write("Enter Boarding Gate Name:");
+    string? boardingName = Console.ReadLine();
+    string? specialCode = "code";
+    foreach (var flight in terminal.Flights.Values)
     {
-        
-        //check if the flightNumber is in the dict
-        if (flight.Value.FlightNumber == flightNumber)
+        int running = 0;
+        if (flight is DDJBFlight)
         {
-            Console.WriteLine($"Flight Number: {flight.Value.FlightNumber} \r\n Origin: {flight.Value.Origin} " +
-                              $"\r\n Destination: {flight.Value.Destination} " +
-                              $"\r\n  Expected Time: {flight.Value.ExpectedTime} " +
-                              $"\r\n Special Request Code: {}");
+            running = 1;
+            specialCode = "DDJB";
+        }
+        else if (flight is CFFTFlight)
+        {
+            specialCode = "CFFT";
+            running = 1;
+        }
+        else if (flight is LWTTFlight)
+        {
+            specialCode = "LWTT";
+            running = 1;
+        }
+        else if (flight is NORMFlight)
+        {
+            specialCode = "None";
+            running = 1;
+        }
+        else if (running == 1)
+        {
+            break;
+        }
+        //check if the flightNumber is in the dict
+        if (flight.FlightNumber == flightNumber)
+        {
+            Console.WriteLine($"Flight Number: {flight.FlightNumber} \r\n Origin: {flight.Origin}" +
+                              $"\r\n Destination: {flight.Destination}" +
+                              $"\r\n  Expected Time: {flight.ExpectedTime}" +
+                              $"\r\n Special Request Code: {specialCode}");
         }
     }
-    Console.Write("Enter Boarding Gate Name:");
 
 }
+    
+
+
+AssignBoardingGate();   
