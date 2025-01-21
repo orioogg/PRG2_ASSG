@@ -4,18 +4,31 @@
 // Partner Name : Murray Wong Kah Weng
 //==========================================================
 using PRG2_ASSG;
-
-
-
 Terminal terminal = new Terminal("Terminal 5");
-
-
+Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n30 Flights Loaded!\r\n");
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
 LoadAirlines();
 LoadBoardingGate();
 LoadFlights();
 
-Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n30 Flights Loaded!\r\n");
-Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\n\r\nPlease select your option:\r\n");
+
+while (true)
+{
+    Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\nPlease select your option:");
+    int option = Convert.ToInt32(Console.ReadLine());
+    if (option == 1)
+    {
+        DisplayFlights();
+    }
+    else if (option == 2) 
+    {
+        printboardinggate();
+    }
+}
+
 void LoadAirlines()
 {
    try
@@ -169,9 +182,7 @@ void printboardinggate()
         Console.WriteLine($"{boardinggate.Value.GateName,-16}{boardinggate.Value.SupportDDJB,-23}{boardinggate.Value.SupportCFFT,-23}{boardinggate.Value.SupportLWTT,-23}");
     }
 }
-DisplayFlights();
 
-printboardinggate();
 
 
 void AssignBoardingGate()
