@@ -50,25 +50,26 @@ namespace PRG2_ASSG
         }
         public Airline GetAirline(Flight flight)
         {
-            Airline airline1 = null;
+            
             if (flight != null)
             {
                 string flightcode;
                 string s = flight.FlightNumber;
-                string[] arr = s.Split(' ');
+                string[] arr = s.Trim().Split(' ');
                 flightcode = arr[0];
                 foreach (var kvp in Airlines)
                 {
-                    if (kvp.Value.Code == flightcode)
+                    if (kvp.Value.Name == flightcode)
                     {
-                        airline1 = kvp.Value;
-                        break;
+                        Airline airline1 = kvp.Value;
+                        return airline1;
                     }
                 }
             }
-            return airline1;
+            return null;
             
         }
+
         //public void PrintAirlineFees()
         //{
 
