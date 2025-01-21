@@ -178,7 +178,22 @@ void AssignBoardingGate()
 {
     Console.WriteLine("=============================================\r\n" +
         "Assign a Boarding Gate to a Flight\r\n=============================================\r\n");
-    Console.Write("Enter Flight Number: ");
-    string flightNumber = Console.ReadLine();
+
+    //prompt user for flight number
+    Console.Write("Enter Flight Number: "); 
+    string? flightNumber = Console.ReadLine();
+    foreach (var flight in terminal.Flights)
+    {
+        
+        //check if the flightNumber is in the dict
+        if (flight.Value.FlightNumber == flightNumber)
+        {
+            Console.WriteLine($"Flight Number: {flight.Value.FlightNumber} \r\n Origin: {flight.Value.Origin} " +
+                              $"\r\n Destination: {flight.Value.Destination} " +
+                              $"\r\n  Expected Time: {flight.Value.ExpectedTime} " +
+                              $"\r\n Special Request Code: {}");
+        }
+    }
     Console.Write("Enter Boarding Gate Name:");
+
 }
