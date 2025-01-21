@@ -11,7 +11,7 @@ Terminal terminal = new Terminal("Terminal 5");
 
 
 LoadAirlines();
-//LoadBoardingGate();
+LoadBoardingGate();
 LoadFlights();
 
 Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n30 Flights Loaded!\r\n");
@@ -54,57 +54,57 @@ void LoadAirlines()
         Console.WriteLine(e.Message);
     }
 }
-//void LoadBoardingGate()
-//{
-//    try
-//    {
-//        using (StreamReader sr = new StreamReader("boardinggates.csv"))
-//        {
-//            string? line = sr.ReadLine(); // Read the header line 
+void LoadBoardingGate()
+{
+    try
+    {
+        using (StreamReader sr = new StreamReader("boardinggates.csv"))
+        {
+            string? line = sr.ReadLine(); // Read the header line 
 
 
-//            while ((line = sr.ReadLine()) != null)
-//            {
+            while ((line = sr.ReadLine()) != null)
+            {
 
 
-//                string[] details = line.Split(',');
+                string[] details = line.Split(',');
 
-//                // Validate the row format
-//                if (details.Length != 4)
-//                {
-//                    Console.WriteLine($"Invalid line: {line}");
-//                    continue;
-//                }
+                // Validate the row format
+                if (details.Length != 4)
+                {
+                    Console.WriteLine($"Invalid line: {line}");
+                    continue;
+                }
 
-//                try
-//                {
-//                    // Parse gate details
-//                    string gateName = details[0];
-//                    bool supportsCFFT = Convert.ToBoolean(details[1]);
-//                    bool supportsDDJB = Convert.ToBoolean(details[2]);
-//                    bool supportsLWTT = Convert.ToBoolean(details[3]);
+                try
+                {
+                    // Parse gate details
+                    string gateName = details[0];
+                    bool supportsCFFT = Convert.ToBoolean(details[1]);
+                    bool supportsDDJB = Convert.ToBoolean(details[2]);
+                    bool supportsLWTT = Convert.ToBoolean(details[3]);
 
-//                    // Create BoardingGate object
-//                    BoardingGate gate = new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT);
+                    // Create BoardingGate object
+                    BoardingGate gate = new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT);
 
-//                    terminal.AddBoardingGate(gate);// Add to the Dictionary Terminal
+                    terminal.AddBoardingGate(gate);// Add to the Dictionary Terminal
 
-//                }
-//                catch (Exception ex)
-//                {
-//                    Console.WriteLine($"Error parsing line: {line}. Details: {ex.Message}");
-//                }
-//            }
-//        }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error parsing line: {line}. Details: {ex.Message}");
+                }
+            }
+        }
 
 
 
-//    }
-//    catch (Exception e)
-//    {
-//       Console.WriteLine($"An error occurred while loading boarding gates: {e.Message}");
-//    }
-//}
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine($"An error occurred while loading boarding gates: {e.Message}");
+    }
+}
 
 
 
@@ -160,8 +160,18 @@ void DisplayFlights()
         Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
     }
 }
-
+void printboardinggate()
+{
+    Console.WriteLine("=============================================\r\nList of Boarding Gates for Changi Airport Terminal 5\r\n=============================================\r\n");
+    Console.WriteLine("Gate Name       DDJB                   CFFT                   LWTT");
+    foreach (KeyValuePair<string, BoardingGate> boardinggate in terminal.BoardingGates)
+    {
+        Console.WriteLine($"{boardinggate.Value.GateName,-16}{boardinggate.Value.SupportDDJB,-23}{boardinggate.Value.SupportCFFT,-23}{boardinggate.Value.SupportLWTT,-23}");
+    }
+}
 DisplayFlights();
+
+printboardinggate();
 
 
 
