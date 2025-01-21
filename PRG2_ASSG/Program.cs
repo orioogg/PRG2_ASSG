@@ -145,19 +145,36 @@ void LoadFlights()
                 Flight flight = new NORMFlight(flightNumber, origin, destination, expectedTime);
                 terminal.Flights.Add(flightNumber, flight);
             }
-            
+
+        }
+        foreach (var kvp in terminal.Flights)
+        {
+            Console.WriteLine(kvp.Value.ToString());
         }
     }
-
-    void DisplayFlights()
+}
+void DisplayFlights()
     {
-
         Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
         Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
         foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
         {
-
-            Console.WriteLine($"{flight.Value.FlightNumber,-16}{terminal.GetAirline(flight.Value).Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
+            Airline airline1 = terminal.GetAirline(flight.Value);
+            Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
         }
     }
-}
+
+DisplayFlights();
+
+   /* //void DisplayFlights()
+    //{
+
+    //    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
+    //    Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
+    //    foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
+    //    {
+
+    //        Console.WriteLine($"{flight.Value.FlightNumber,-16}{terminal.GetAirline(flight.Value).Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
+    //    }
+    //}
+}*/
