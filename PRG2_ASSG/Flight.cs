@@ -20,17 +20,17 @@ namespace PRG2_ASSG
 
         public DateTime ExpectedTime { get; set; }
 
-        private string Status { get; set; }
+        private string Status { get; set; }= "On Time";
 
         //constructor
 
-        public Flight(string flightNumber, string origin, string destination, DateTime expectedTime, string status)
+        public Flight(string flightNumber, string origin, string destination, DateTime expectedTime)
         {
             FlightNumber = flightNumber;
             Origin = origin;
             Destination = destination;
             ExpectedTime = expectedTime;
-            Status = "On Time";
+          
         }
 
         //public abstract double CalculateFees();

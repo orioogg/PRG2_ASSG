@@ -15,7 +15,7 @@ namespace PRG2_ASSG
         public double RequestFee { get; set; }
 
         //constructor 
-        public LWTTFlight(string flightNumber, string origin, string destination,DateTime expectedTime,string status) : base(flightNumber, origin, destination,expectedTime, status)
+        public LWTTFlight(string flightNumber, string origin, string destination,DateTime expectedTime) : base(flightNumber, origin, destination,expectedTime)
         {
             RequestFee = 500;
         }
