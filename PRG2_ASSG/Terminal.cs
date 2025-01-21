@@ -48,13 +48,19 @@ namespace PRG2_ASSG
             BoardingGates[boardingGate.GateName] = boardingGate;
             return true;
         }
-        public Airline GetAirline(Airline airline)
+        public Airline GetAirline(Flight flight)
         {
-            if (Airlines.ContainsKey(airline.Code))
-            {
-                return Airlines[airline.Code];
+            string flightCode = flight.FlightNumber.Substring(0, 2);
+            Airline? airline = null;
+
+            foreach (KeyValuePair<string, Airline> kvp in Airlines)
+            {   
+                if (kvp.Key == flightCode)
+                {
+                    airline = kvp.Value;
+                }
             }
-            return null;
+            return airline;
         }
         //public void PrintAirlineFees()
         //{

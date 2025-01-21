@@ -13,6 +13,7 @@ Terminal terminal = new Terminal("Terminal 5");
 //LoadAirlines();
 //LoadBoardingGate();
 LoadFlights();
+
 //Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n30 Flights Loaded!\r\n");
 //Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\n\r\nPlease select your option:\r\n");
 //void LoadAirlines()
@@ -27,7 +28,7 @@ LoadFlights();
 //            {
 //                string[] airlineDetails = line.Split(',');
 
-                
+
 //                if (airlineDetails.Length >= 2) // Check if there are at least two columns
 //                {
 //                    string code = airlineDetails[0];
@@ -46,7 +47,7 @@ LoadFlights();
 //                }
 //            }
 //        }
-        
+
 //    }
 //    catch (Exception e)
 //    {
@@ -60,11 +61,11 @@ LoadFlights();
 //        using (StreamReader sr = new StreamReader("boardinggates.csv"))
 //        {
 //            string? line = sr.ReadLine(); // Read the header line 
-           
+
 
 //            while ((line = sr.ReadLine()) != null)
 //            {
-                
+
 
 //                string[] details = line.Split(',');
 
@@ -96,8 +97,8 @@ LoadFlights();
 //            }
 //        }
 
-       
-       
+
+
 //    }
 //    catch (Exception e)
 //    {
@@ -107,7 +108,7 @@ LoadFlights();
 
 
 
-void LoadFlights() 
+void LoadFlights()
 {
     using (StreamReader sr = new StreamReader("flights.csv"))
     {
@@ -123,40 +124,40 @@ void LoadFlights()
 
             if (flights.Length == 5)   //check if there is a special request code
             {
-                if (flights[4] == "DDJB") 
+                if (flights[4] == "DDJB")
                 {
-                    Flight flight = new DDJBFlight(flightNumber, origin, destination,expectedTime);      
+                    Flight flight = new DDJBFlight(flightNumber, origin, destination, expectedTime);
                     terminal.Flights.Add(flightNumber, flight);
                 }
                 else if (flights[4] == "CFFT")
                 {
-                    Flight flight = new CFFTFlight(flightNumber, origin, destination,expectedTime);
+                    Flight flight = new CFFTFlight(flightNumber, origin, destination, expectedTime);
                     terminal.Flights.Add(flightNumber, flight);
                 }
                 else if (flights[4] == "LWTT")
                 {
-                    Flight flight = new LWTTFlight(flightNumber, origin, destination,expectedTime);
+                    Flight flight = new LWTTFlight(flightNumber, origin, destination, expectedTime);
                     terminal.Flights.Add(flightNumber, flight);
                 }
             }
             else  //if there is no special request code
             {
-                Flight flight = new NORMFlight(flightNumber, origin, destination,expectedTime);
+                Flight flight = new NORMFlight(flightNumber, origin, destination, expectedTime);
                 terminal.Flights.Add(flightNumber, flight);
-            }          
+            }
+            
+        }
+    }
+
+    void DisplayFlights()
+    {
+
+        Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
+        Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
+        foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
+        {
+
+            Console.WriteLine($"{flight.Value.FlightNumber,-16}{terminal.GetAirline(flight.Value).Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
         }
     }
 }
-
-void DisplayFlights()
-{
-    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
-    Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
-    foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
-    {
-        string airlineCode = flight.Value.FlightNumber.Split(' ')[0];
-        Airline airline = terminal.GetAirline(airlineCode);
-        Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
-    }
-}
-
