@@ -20,7 +20,7 @@ namespace PRG2_ASSG
 
         public DateTime ExpectedTime { get; set; }
 
-        private string Status { get; set; }= "On Time";
+        public string Status { get; set; }= "On Time";
 
         //constructor
 
