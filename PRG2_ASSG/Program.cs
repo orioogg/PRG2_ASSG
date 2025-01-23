@@ -233,7 +233,10 @@ void AssignBoardingGate()
                               $"\r\n Special Request Code: {specialCode}");
         }
     }
-
+    foreach(var boardingGate in terminal.BoardingGates)
+    {
+        if (boardingName == boardingGate.)    
+    }
 }
     
 
