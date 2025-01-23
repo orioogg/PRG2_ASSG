@@ -273,6 +273,11 @@ void displayspecificflight()
 {
     Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================\r\nAirline Code    Airline Name\r\nSQ              Singapore Airlines\r\nMH              Malaysia Airlines\r\nJL              Japan Airlines\r\nCX              Cathay Pacific\r\nQF              Qantas Airways\r\nTR              AirAsia\r\nEK              Emirates\r\nBA              British Airways\r\nEnter Airline Code:\r\n");
     string? airlineCode = Console.ReadLine();
+    if(airlineCode != "SQ" && airlineCode != "MH" && airlineCode != "JL" && airlineCode != "CX" && airlineCode != "QF" && airlineCode != "TR" && airlineCode != "EK" && airlineCode != "BA")
+    {
+        Console.WriteLine("Invalid Airline Code");
+        return;
+    }
     Dictionary <string, Flight> airlineFlights = new Dictionary<string, Flight>(terminal.Flights);
     Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
     Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
