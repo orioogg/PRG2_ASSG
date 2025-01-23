@@ -43,7 +43,7 @@ while (true)
     }
     else if (option == 6)
     {
-       
+       modifyflights();
     }
     else if (option == 7)
     {
@@ -228,6 +228,7 @@ void AssignBoardingGate()
     Console.Write("Enter Boarding Gate Name:");
     string? boardingName = Console.ReadLine();
     string? specialCode = "code";
+    
     foreach (var flight in terminal.Flights.Values)
     {
         int running = 0;
@@ -263,6 +264,9 @@ void AssignBoardingGate()
                               $"\r\n  Expected Time: {flight.ExpectedTime}" +
                               $"\r\n Special Request Code: {specialCode}");
         }
+        
+
+
     }
 
 }
@@ -316,23 +320,36 @@ void modifyflights()
     Console.WriteLine("Choose an existing Flight to modify or delete:");
     string? flightNumber = Console.ReadLine();
     string? specialCode = "code";
+
+    foreach (var flight in terminal.Flights.Values)
+    {
+        int running = 0;
+        if (flight is DDJBFlight)
+        {
+            specialCode = "DDJB";
+            running = 1;
+        }
+        else if (flight is CFFTFlight)
+        {
+            specialCode = "CFFT";
+            running = 1;
+        }
+        else if (flight is LWTTFlight)
+        {
+            specialCode = "LWTT";
+            running = 1;
+        }
+        else if (flight is NORMFlight)
+        {
+            specialCode = "None";
+            running = 1;
+        }
+        else if (running == 1)
+        {
+            break;
+        }
+    }
     
-    if (flightNumber is DDJBFlight)
-    {
-        specialCode = "DDJB";
-    }
-    else if (flightNumber is CFFTFlight)
-    {
-        specialCode = "CFFT";
-    }
-    else if (flightNumber is LWTTFlight)
-    {
-        specialCode = "LWTT";
-    }
-    else if (flightNumber is NORMFlight)
-    {
-        specialCode = "None";
-    }
     foreach (var flight in airlineFlights) 
     {
         if (flight.Key == flightNumber)
@@ -344,7 +361,7 @@ void modifyflights()
                 modifyingoptions();
                 string ?option1 = Console.ReadLine();
                 if (option1 == "1")
-                {
+                {   
                     Console.Write("Enter new Origin: ");
                     string? newOrigin = Console.ReadLine();
                     Console.Write("Enter new Destination: ");
@@ -355,6 +372,8 @@ void modifyflights()
                     flight1.Origin = newOrigin;
                     flight1.Destination = newDestination;
                     flight1.ExpectedTime = newExpectedTime;
+                    
+                    
                     Console.WriteLine("Flight updated!!");
                     
                     Console.WriteLine($"Flight Number: {flightNumber}\r\nAirline Name: {airlinename}\r\nOrigin: {newOrigin}\r\nDestination: {newDestination}\r\nExpected Departure/Arrival Time: {newExpectedTime}\r\nStatus: {flight1.Status}\r\nSpecial Request Code: {specialCode}\r\nBoarding Gate: Unassigned\r\n");
