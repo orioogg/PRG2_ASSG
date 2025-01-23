@@ -29,6 +29,35 @@ while (true)
     {
         printboardinggate();
     }
+    else if (option == 3) 
+    {
+        AssignBoardingGate();
+    }
+    else if (option == 4)
+    {
+        
+    }
+    else if (option == 5)
+    {
+        displayspecificflight();
+    }
+    else if (option == 6)
+    {
+       
+    }
+    else if (option == 7)
+    {
+       
+    }
+    else if (option == 0)
+    {
+        break;
+    }
+    else
+    {
+        Console.WriteLine("Invalid Option");
+
+    }
 }
 
 void LoadAirlines()
@@ -240,4 +269,19 @@ void AssignBoardingGate()
     
 
 
-AssignBoardingGate();   
+void displayspecificflight()
+{
+    Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================\r\nAirline Code    Airline Name\r\nSQ              Singapore Airlines\r\nMH              Malaysia Airlines\r\nJL              Japan Airlines\r\nCX              Cathay Pacific\r\nQF              Qantas Airways\r\nTR              AirAsia\r\nEK              Emirates\r\nBA              British Airways\r\nEnter Airline Code:\r\n");
+    string? airlineCode = Console.ReadLine();
+    Dictionary <string, Flight> airlineFlights = new Dictionary<string, Flight>(terminal.Flights);
+    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
+    Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
+    foreach (KeyValuePair<string, Flight> flight in airlineFlights)
+    {
+        Airline airline1 = terminal.GetAirline(flight.Value);
+        if (airline1.Code == airlineCode)
+        {
+            Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
+        }
+    }
+}
