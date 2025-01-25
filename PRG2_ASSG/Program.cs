@@ -82,7 +82,7 @@ while (true)
 
     }
 }
-
+//feature 1
 void LoadAirlines()
 {
    try
@@ -121,6 +121,7 @@ void LoadAirlines()
         Console.WriteLine(e.Message);
     }
 }
+//feature 1
 void LoadBoardingGate()
 {
     try
@@ -174,7 +175,7 @@ void LoadBoardingGate()
 }
 
 
-
+//feature 2
 void LoadFlights()
 {
     using (StreamReader sr = new StreamReader("flights.csv"))
@@ -212,12 +213,10 @@ void LoadFlights()
                     terminal.Flights.Add(flightNumber, flight);
                 }
             }
-
-
         }
     }
 }
-
+//feature 3
 void DisplayFlights()
 {
     Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
@@ -228,7 +227,7 @@ void DisplayFlights()
         Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
     }
 }
-
+//feature 4
 void printboardinggate()
 {
     Console.WriteLine("=============================================\r\nList of Boarding Gates for Changi Airport Terminal 5\r\n=============================================\r\n");
@@ -240,7 +239,7 @@ void printboardinggate()
 }
 
 
-
+//feature 5
 void AssignBoardingGate()
 {
     Console.WriteLine("=============================================\r\n" +
@@ -248,7 +247,7 @@ void AssignBoardingGate()
 
     Console.Write("Enter Flight Number: ");        //prompt user for flight number
     string? flightNumber = Console.ReadLine();
-    Console.Write("Enter Boarding Gate Name:");    //prompt user for boarding gate name
+    Console.Write("Enter Boarding Gate Name: ");    //prompt user for boarding gate name
     string? boardingName = Console.ReadLine();
     if (!terminal.BoardingGates.ContainsKey(boardingName))
     {
@@ -352,15 +351,15 @@ void AssignBoardingGate()
     }
     else
     {
-        Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate{boardingName}!");
+        Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate {boardingName}!");
     }
 }
 
 
-
+//feature 7
 void displayspecificflight()
 {
-    Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================\r\nAirline Code    Airline Name\r\nSQ              Singapore Airlines\r\nMH              Malaysia Airlines\r\nJL              Japan Airlines\r\nCX              Cathay Pacific\r\nQF              Qantas Airways\r\nTR              AirAsia\r\nEK              Emirates\r\nBA              British Airways\r\nEnter Airline Code:\r\n");
+    Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================\r\nAirline Code    Airline Name\r\nSQ              Singapore Airlines\r\nMH              Malaysia Airlines\r\nJL              Japan Airlines\r\nCX              Cathay Pacific\r\nQF              Qantas Airways\r\nTR              AirAsia\r\nEK              Emirates\r\nBA              British Airways\r\nEnter Airline Code:\r");
     string? airlineCode = Console.ReadLine().ToUpper();
     if(airlineCode != "SQ" && airlineCode != "MH" && airlineCode != "JL" && airlineCode != "CX" && airlineCode != "QF" && airlineCode != "TR" && airlineCode != "EK" && airlineCode != "BA")
     {
@@ -368,7 +367,7 @@ void displayspecificflight()
         return;
     }
     Dictionary <string, Flight> airlineFlights = new Dictionary<string, Flight>(terminal.Flights);
-    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
+    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================");
     Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
     foreach (KeyValuePair<string, Flight> flight in airlineFlights)
     {
@@ -379,6 +378,7 @@ void displayspecificflight()
         }
     }
 }
+//feature 8
 void modifyflights()
 {
     Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================\r\nAirline Code    Airline Name\r\nSQ              Singapore Airlines\r\nMH              Malaysia Airlines\r\nJL              Japan Airlines\r\nCX              Cathay Pacific\r\nQF              Qantas Airways\r\nTR              AirAsia\r\nEK              Emirates\r\nBA              British Airways\r\nEnter Airline Code: ");
@@ -389,7 +389,7 @@ void modifyflights()
         return;
     }
     Dictionary<string, Flight> airlineFlights = new Dictionary<string, Flight>(terminal.Flights);
-    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================\r\n");
+    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================");
     Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
     string? airlinename = null;
     foreach (KeyValuePair<string, Flight> flight in airlineFlights)
@@ -533,6 +533,7 @@ void modifyflights()
                             gateassigned = true;
                             break;
                         }
+
                     }
                     if (gateassigned == false)
                     {
@@ -568,13 +569,24 @@ void modifyflights()
                 }
                 else if (option1 == "4")
                 {
+                    bool gateFound = false;
                     Console.Write("Enter new Boarding Gate: ");
                     string? newboardinggate = Console.ReadLine();
+                    foreach (var boardingGate in terminal.BoardingGates.Values)
+                    {
+                        if (newboardinggate != boardingGate.GateName)    //check if boarding gate entered is in the dictionary
+                        {
+                            gateFound = true;
+                            Console.WriteLine("Boarding gate could not be found. Please try again.");
+                            return;
+                        }
+                    }
                     if (terminal.BoardingGates.ContainsKey(newboardinggate))
                     {
                         terminal.BoardingGates[newboardinggate].Flight = terminal.Flights[flightNumber];
                         Console.WriteLine("Flight assigned to boarding gate");
                     }
+                    
                     else
                     {
                         Console.WriteLine("Invalid Boarding Gate Name");
@@ -604,12 +616,11 @@ void modifyflights()
             {
                 terminal.Flights.Remove(flightNumber);
                 Console.WriteLine("Flight Deleted!");
-
             }
         }
     }
 }         
-           
+//feature 8    
 void modifyingoptions()
 {
     Console.WriteLine("1. Modify Basic Information\r\n2. Modify Status\r\n3. Modify Special Request Code\r\n4. Modify Boarding Gate\r\n");
