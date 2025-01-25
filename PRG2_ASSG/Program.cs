@@ -204,6 +204,7 @@ void DisplayFlights()
         Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
     }
 }
+
 void printboardinggate()
 {
     Console.WriteLine("=============================================\r\nList of Boarding Gates for Changi Airport Terminal 5\r\n=============================================\r\n");
@@ -224,7 +225,7 @@ void AssignBoardingGate()
     //prompt user for flight number
     Console.Write("Enter Flight Number: ");
     string? flightNumber = Console.ReadLine();
-
+    //prompt user for boarding gate name
     Console.Write("Enter Boarding Gate Name:");
     string? boardingName = Console.ReadLine();
     string? specialCode = "code";
@@ -247,7 +248,7 @@ void AssignBoardingGate()
             specialCode = "LWTT";
             running = 1;
         }
-        else if (flight is NORMFlight)
+        else if (flight is NORMFlight)     
         {
             specialCode = "None";
             running = 1;
@@ -263,15 +264,64 @@ void AssignBoardingGate()
                               $"\r\n Destination: {flight.Destination}" +
                               $"\r\n  Expected Time: {flight.ExpectedTime}" +
                               $"\r\n Special Request Code: {specialCode}");
+            //check if boarding gate entered is in the dictionary
+            foreach (var boardingGate in terminal.BoardingGates.Values)
+            {
+                if (boardingGate.Flight.FlightNumber == flightNumber)
+                {
+                    Console.WriteLine("This boarding gate is already assigned to another flight.");
+                }
+                else if (boardingName == boardingGate.GateName)
+                {
+                    Console.WriteLine($"Boarding Gate Name: {boardingGate.GateName}" +
+                                      $"\r\n Supports DDJB: {boardingGate.SupportDDJB}" +
+                                      $"\r\n Supports CFFT: {boardingGate.SupportCFFT} \r\nSupports LWTT: {boardingGate.SupportLWTT}");
+                    boardingGate.Flight = flight;
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("Flight could not be found. Please try again.");
+            return;
         }
         
-
-
+        Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
+        string? input = Console.ReadLine();
+        if (input != null)
+        {
+            if (input == "Y")
+            {
+                Console.WriteLine("1. Delayed\r\n2. Boarding\r\n3. On Time\r\n");
+                Console.WriteLine("Please select the new status of the flight:");
+                string? option = Console.ReadLine();
+                if (option == "1")
+                {
+                    flight.Status = "Delayed";
+                    break;
+                }
+                else if (option == "2")
+                {
+                    flight.Status = "Boarding";
+                    break;
+                }
+                else if (option == "3")
+                {
+                    flight.Status = "On Time";
+                    break;
+                }
+            }
+            else if (input == "N")
+            {
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Input is not valid. Please try again.");
+            }
+        }
     }
-    foreach(var boardingGate in terminal.BoardingGates)
-    {
-        if (boardingName == boardingGate.)    
-    }
+    Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate{boardingName}!");
 }
     
 
