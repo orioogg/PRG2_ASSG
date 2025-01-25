@@ -205,19 +205,17 @@ void LoadFlights()
                     Flight flight = new LWTTFlight(flightNumber, origin, destination, expectedTime);
                     terminal.Flights.Add(flightNumber, flight);
                 }
+                else  //if there is no special request code
+                {
+                    Flight flight = new NORMFlight(flightNumber, origin, destination, expectedTime);
+                    terminal.Flights.Add(flightNumber, flight);
+                }
             }
-            else  //if there is no special request code
-            {
-                Flight flight = new NORMFlight(flightNumber, origin, destination, expectedTime);
-                terminal.Flights.Add(flightNumber, flight);
-            }
+            
 
         }
     }
-    foreach (var flight in terminal.Flights.Values)
-    {
-        Console.WriteLine(flight);
-    }
+   
 }
 
 void DisplayFlights()
