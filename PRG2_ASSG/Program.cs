@@ -2,6 +2,7 @@
 // Student Number : S10269334
 // Student Name : Janice Oh Shi Ting
 // Partner Name : Murray Wong Kah Weng
+// Partner Number : S10270448
 //==========================================================
 using PRG2_ASSG;
 using System;
@@ -211,24 +212,9 @@ void LoadFlights()
                     terminal.Flights.Add(flightNumber, flight);
                 }
             }
-            
+
 
         }
-    }
-   
-        Console.WriteLine(flight);
-    }
-        Console.WriteLine(flight);
-    }
-        Console.WriteLine(flight);
-    }
-        Console.WriteLine(flight);
-    }
-        Console.WriteLine(flight);
-    }
-        Console.WriteLine(flight);
-    }
-        Console.WriteLine(flight);
     }
 }
 
@@ -324,7 +310,7 @@ void AssignBoardingGate()
                 return;
             }
             Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
-            string? input = Console.ReadLine();
+            string? input = Console.ReadLine().ToUpper() ;
             if (input != null)
             {
                 if (input == "Y")
@@ -352,10 +338,11 @@ void AssignBoardingGate()
                 {
                     return;
                 }
-                else
-                {
-                    Console.WriteLine("Input is not valid. Please try again.");
-                }
+                
+            }
+            else
+            {
+                Console.WriteLine("Input is not valid. Please try again.");
             }
         }
     }
