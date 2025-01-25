@@ -17,14 +17,13 @@ namespace PRG2_ASSG
         public bool SupportCFFT { get; set; }
         public bool SupportDDJB { get; set; }
         public bool SupportLWTT { get; set; }
-        public Flight Flight { get; set; }
+        public Flight Flight { get; set; } = null;
         public BoardingGate(string gateName, bool supportCFFT, bool supportDDJB, bool supportLWTT)
         {
             GateName = gateName;
             SupportCFFT = supportCFFT;
             SupportDDJB = supportDDJB;
             SupportLWTT = supportLWTT;
-            Flight = null;
         }
 
 
