@@ -13,12 +13,15 @@ LoadAirlines();
 LoadBoardingGate();
 LoadFlights();
 Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n{terminal.Flights.Count} Flights Loaded!\r\n");
-Console.WriteLine();
-Console.WriteLine();
-Console.WriteLine();
-Console.WriteLine();
+print4spaces();
 
-
+void print4spaces()
+{
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+}
 
 while (true)
 {
@@ -27,26 +30,17 @@ while (true)
     if (option == "1")
     {
         DisplayFlights();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
+        print4spaces();
     }
     else if (option == "2")
     {
         printboardinggate();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
+        print4spaces();
     }
     else if (option == "3") 
     {
         AssignBoardingGate();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
+        print4spaces();
     }
     else if (option == "4")
     {
@@ -55,18 +49,12 @@ while (true)
     else if (option == "5")
     {
         displayspecificflight();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
+        print4spaces();
     }
     else if (option == "6")
     {
        modifyflights();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
+        print4spaces();
     }
     else if (option == "7")
     {
@@ -79,6 +67,7 @@ while (true)
     else
     {
         Console.WriteLine("Please enter only options 0 to 7.");
+        print4spaces();
 
     }
 }
@@ -447,10 +436,10 @@ void modifyflights()
                 string? option1 = Console.ReadLine();
                 if (option1 == "1")
                 {
-                    
+
                     Console.Write("Enter new Origin: ");
                     string? newOrigin = Console.ReadLine();
-                    if (newOrigin != "Singapore (SIN)" && newOrigin!= "Tokyo (NRT)"&&newOrigin!= "Kuala Lumpur (KUL)"&& newOrigin!= "Bangkok (BKK)"&& newOrigin!= "Dubai (DXB)"&& newOrigin!= "Manila (MNL)"&&newOrigin!= "London (LHR)"&& newOrigin!= "Hong Kong (HKD)"&& newOrigin!= "Sydney (SYD)" && newOrigin!= "Jakarta (CGK)" && newOrigin!= "Melbourne (MEL)") 
+                    if (newOrigin != "Singapore (SIN)" && newOrigin != "Tokyo (NRT)" && newOrigin != "Kuala Lumpur (KUL)" && newOrigin != "Bangkok (BKK)" && newOrigin != "Dubai (DXB)" && newOrigin != "Manila (MNL)" && newOrigin != "London (LHR)" && newOrigin != "Hong Kong (HKD)" && newOrigin != "Sydney (SYD)" && newOrigin != "Jakarta (CGK)" && newOrigin != "Melbourne (MEL)")
                     {
                         Console.WriteLine("Invalid Origin");
                         return;
@@ -569,53 +558,43 @@ void modifyflights()
                 }
                 else if (option1 == "4")
                 {
-                    bool gateFound = false;
+
                     Console.Write("Enter new Boarding Gate: ");
                     string? newboardinggate = Console.ReadLine();
-                    foreach (var boardingGate in terminal.BoardingGates.Values)
-                    {
-                        if (newboardinggate != boardingGate.GateName)    //check if boarding gate entered is in the dictionary
-                        {
-                            gateFound = true;
-                            Console.WriteLine("Boarding gate could not be found. Please try again.");
-                            return;
-                        }
-                    }
+
+                    bool gateassigned = false;
+                    Console.WriteLine($"Flight Number: {flightNumber}\r\nAirline Name: {airlinename}\r\nOrigin: {terminal.Flights[flightNumber].Origin}\r\nDestination: {terminal.Flights[flightNumber].Destination}\r\nExpected Departure/Arrival Time: {terminal.Flights[flightNumber].ExpectedTime}\r\nStatus: {terminal.Flights[flightNumber].Status}\r\nSpecial Request Code: {specialCode}");
                     if (terminal.BoardingGates.ContainsKey(newboardinggate))
                     {
-                        terminal.BoardingGates[newboardinggate].Flight = terminal.Flights[flightNumber];
-                        Console.WriteLine("Flight assigned to boarding gate");
+                        if (terminal.BoardingGates[newboardinggate].Flight == null)
+                        {
+                            terminal.BoardingGates[newboardinggate].Flight = terminal.Flights[flightNumber];
+                            Console.Write($"Boarding Gate: {newboardinggate}");
+                            gateassigned = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("This boarding gate has already been assigned to another flight. Please try again.");
+                            if (gateassigned == false)
+                            {
+                                Console.WriteLine("Boarding Gate: Unassigned");
+                                return;
+                            }
+                            return;
+                        }
+                        
                     }
-                    
+                  
                     else
                     {
-                        Console.WriteLine("Invalid Boarding Gate Name");
-                        return;
-                    }
-                    bool gateassigned = false;
-                    Console.WriteLine($"Flight Number: {flightNumber}\r\nAirline Name: {airlinename}\r\nOrigin: {terminal.Flights[flightNumber].Origin}\r\nDestination: {terminal.Flights[flightNumber].Destination}\r\nExpected Departure/Arrival Time: {terminal.Flights[flightNumber].ExpectedTime}\r\nStatus: {terminal.Flights[flightNumber].Status}\r\nSpecial Request Code: {specialCode}\n");
-                    foreach (var boardingGate in terminal.BoardingGates.Values)
-                    {
-                        
-                        if (boardingGate.GateName == newboardinggate)
-                        {
-                            boardingGate.Flight = terminal.Flights[flightNumber];
-                            Console.WriteLine("Flight assigned to boarding gate");
-                            gateassigned = true;
-                            break;
-                        }
-                    }
-                    if (gateassigned == false)
-                    {
-                        Console.WriteLine("Invalid Boarding Gate Name");
+                        Console.WriteLine("Invalid Boarding Gate");
                     }
                 }
-
-            }
-            else if (option == "2")
-            {
-                terminal.Flights.Remove(flightNumber);
-                Console.WriteLine("Flight Deleted!");
+                else if (option == "2")
+                {
+                    terminal.Flights.Remove(flightNumber);
+                    Console.WriteLine("Flight Deleted!");
+                }
             }
         }
     }
@@ -623,5 +602,6 @@ void modifyflights()
 //feature 8    
 void modifyingoptions()
 {
-    Console.WriteLine("1. Modify Basic Information\r\n2. Modify Status\r\n3. Modify Special Request Code\r\n4. Modify Boarding Gate\r\n");
+    Console.WriteLine("1. Modify Basic Information\r\n2. Modify Status\r\n3. Modify Special Request Code\r\n4. Modify Boarding Gate");
+    Console.WriteLine("Choose an option:");
 }
