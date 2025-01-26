@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 // Student Number : S10269334
 // Student Name : Janice Oh Shi Ting
 // Partner Name : Murray Wong Kah Weng
+// Partner Number : S10270448
 //==========================================================
 namespace PRG2_ASSG
 {
