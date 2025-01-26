@@ -247,11 +247,6 @@ void AssignBoardingGate()
     string? flightNumber = Console.ReadLine();
     Console.Write("Enter Boarding Gate Name:");    //prompt user for boarding gate name
     string? boardingName = Console.ReadLine();
-    if (!terminal.BoardingGates.ContainsKey(boardingName))
-    {
-        Console.WriteLine("Invalid Boarding Gate Name");
-        return;
-    }
     string? specialCode = "code";
 
     bool flightFound = false;  //flag to check if flight was found
