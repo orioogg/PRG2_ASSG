@@ -275,22 +275,25 @@ void AssignBoardingGate()
                               $"\r\nSpecial Request Code: {specialCode}");
             foreach (var boardingGate in terminal.BoardingGates.Values)
             {
-                if (boardingName == boardingGate.GateName)    //check if boarding gate entered is in the dictionary
-                {
-                    gateFound = true;
-                    if (boardingGate.Flight == null)          //checks if the boarding gate is assigned already
+                
+                
+                    if (boardingName == boardingGate.GateName)    //check if boarding gate entered is in the dictionary
                     {
-                        Console.WriteLine($"Boarding Gate Name: {boardingGate.GateName}" +
-                                      $"\r\nSupports DDJB: {boardingGate.SupportDDJB}" +
-                                      $"\r\nSupports CFFT: {boardingGate.SupportCFFT} \r\nSupports LWTT: {boardingGate.SupportLWTT}");
-                        boardingGate.Flight = flight;
-                    }
-                    else
-                    {
-                        Console.WriteLine("This boarding gate has already been assigned to another flight. Please try again.");
+                        gateFound = true;
+                        if (boardingGate.Flight == null)          //checks if the boarding gate is assigned already
+                        {
+                            Console.WriteLine($"Boarding Gate Name: {boardingGate.GateName}" +
+                                          $"\r\nSupports DDJB: {boardingGate.SupportDDJB}" +
+                                          $"\r\nSupports CFFT: {boardingGate.SupportCFFT} \r\nSupports LWTT: {boardingGate.SupportLWTT}");
+                            boardingGate.Flight = flight;
+                        }
+                        else
+                        {
+                            Console.WriteLine("This boarding gate has already been assigned to another flight. Please try again.");
                         return;
+                        }
                     }
-                }
+                
             }
             if (!gateFound)
             {
@@ -470,7 +473,7 @@ void modifyflights()
                     bool gateassigned = false;
                     foreach (var boardingGate in terminal.BoardingGates.Values)
                     {
-                        if (boardingGate.Flight == flight1)
+                        if (boardingGate.Flight != null)
                         {
                             Console.WriteLine($"Boarding Gate: {boardingGate.GateName}");
                             gateassigned = true;
@@ -566,7 +569,8 @@ void modifyflights()
                         }
                         else
                         {
-                            Console.WriteLine("This boarding gate has already been assigned to another flight. Please try again.");
+                            Console.WriteLine("This boarding gate has already been assigned to another flight");
+
                             if (gateassigned == false)
                             {
                                 Console.WriteLine("Boarding Gate: Unassigned");
