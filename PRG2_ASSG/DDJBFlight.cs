@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 // Partner Name : Murray Wong Kah Weng
 // Partner Number : S10270448
 //==========================================================
-namespace PRG2_ASSG
+namespace S10269334_PRG2Assignment
 {
     
         class DDJBFlight : Flight

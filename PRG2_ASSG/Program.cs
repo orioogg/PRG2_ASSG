@@ -4,9 +4,10 @@
 // Partner Name : Murray Wong Kah Weng
 // Partner Number : S10270448
 //==========================================================
-using PRG2_ASSG;
+using S10269334_PRG2Assignment;
 using System;
 using System.ComponentModel.Design;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 Terminal terminal = new Terminal("Terminal 5");
 LoadAirlines();
@@ -44,7 +45,8 @@ while (true)
     }
     else if (option == "4")
     {
-        
+        CreateFlight();
+        print4spaces();
     }
     else if (option == "5")
     {
@@ -342,6 +344,69 @@ void AssignBoardingGate()
     }
 }
 
+//feature 6
+void CreateFlight()
+{
+    string option = "o";
+    string flightNumber = "w";
+    do
+    {
+        Console.Write("Enter Flight Number: ");
+        flightNumber = Console.ReadLine();
+
+        Console.Write("Enter Origin: ");
+        string? origin = Console.ReadLine();
+
+        Console.Write("Enter Destination: ");
+        string? destination = Console.ReadLine();
+
+        Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+        DateTime expectedTime = Convert.ToDateTime(Console.ReadLine());
+
+        Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+        string? specialCode = Console.ReadLine();
+
+        if (specialCode == "DDJB")
+        {
+            Flight flight = new DDJBFlight(flightNumber, origin, destination, expectedTime);
+            terminal.Flights.Add(flightNumber, flight);
+        }
+        else if (specialCode == "CFFT")
+        {
+            Flight flight = new CFFTFlight(flightNumber, origin, destination, expectedTime);
+            terminal.Flights.Add(flightNumber, flight);
+        }
+        else if (specialCode == "LWTT")
+        {
+            Flight flight = new LWTTFlight(flightNumber, origin, destination, expectedTime);
+            terminal.Flights.Add(flightNumber, flight);
+        }
+        else if (specialCode == "None") //if there is no special request code
+        {
+            Flight flight = new NORMFlight(flightNumber, origin, destination, expectedTime);
+            terminal.Flights.Add(flightNumber, flight);
+        }
+
+        using (StreamWriter sw = new StreamWriter("flights.csv", true))
+        {
+            if (specialCode == "None")
+            {
+                string data = flightNumber + "," + origin + "," + destination + "," + expectedTime;
+                sw.WriteLine(data);
+            }
+            else
+            {
+                string data = flightNumber + "," + origin + "," + destination + "," + expectedTime + "," + specialCode;
+                sw.WriteLine(data);
+            }
+            
+        }
+        Console.WriteLine("Would you like to add another flight? (Y/N)");
+        option = Console.ReadLine();
+
+    } while (option != "N");
+    Console.WriteLine($"Flight {flightNumber} has been added!");
+}
 
 //feature 7
 void displayspecificflight()
