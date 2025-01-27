@@ -62,6 +62,7 @@ while (true)
     }
     else if (option == "0")
     {
+        Console.WriteLine("GoodBye!");
         break;
     }
     else
