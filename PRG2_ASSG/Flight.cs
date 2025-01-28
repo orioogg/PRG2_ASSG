@@ -21,7 +21,7 @@ namespace S10269334_PRG2Assignment
 
         public DateTime ExpectedTime { get; set; }
 
-        public string Status { get; set; }= "On Time";
+        public string Status { get; set; }= "Scheduled";
 
         //constructor
 
