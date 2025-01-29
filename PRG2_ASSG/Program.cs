@@ -215,7 +215,7 @@ void DisplayFlights()
     Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
     foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
     {
-        Airline airline1 = terminal.GetAirline(flight.Value);
+        Airline airline1 = terminal.GetAirlineFromFlight(flight.Value);
         Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
     }
 }
@@ -238,9 +238,9 @@ void AssignBoardingGate()
         "Assign a Boarding Gate to a Flight\r\n=============================================\r\n");
 
     Console.Write("Enter Flight Number: ");        //prompt user for flight number
-    string? flightNumber = Console.ReadLine();
+    string? flightNumber = Console.ReadLine().ToUpper();
     Console.Write("Enter Boarding Gate Name: ");    //prompt user for boarding gate name
-    string? boardingName = Console.ReadLine();
+    string? boardingName = Console.ReadLine().ToUpper();
     string? specialCode = "code";
 
     bool flightFound = false;  //flag to check if flight was found
@@ -353,7 +353,7 @@ void CreateFlight()
     do
     {
         Console.Write("Enter Flight Number: ");
-        flightNumber = Console.ReadLine();
+        flightNumber = Console.ReadLine().ToUpper();
 
         Console.Write("Enter Origin: ");
         string? origin = Console.ReadLine();
@@ -365,7 +365,11 @@ void CreateFlight()
         DateTime expectedTime = Convert.ToDateTime(Console.ReadLine());
 
         Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
-        string? specialCode = Console.ReadLine();
+        string? specialCode = Console.ReadLine().ToUpper();
+        if (specialCode == "NONE") 
+        {
+            specialCode = "None";
+        }
 
         if (specialCode == "DDJB")
         {
@@ -403,7 +407,7 @@ void CreateFlight()
             
         }
         Console.WriteLine("Would you like to add another flight? (Y/N)");
-        option = Console.ReadLine();
+        option = Console.ReadLine().ToUpper();
 
     } while (option != "N");
     Console.WriteLine($"Flight {flightNumber} has been added!");
@@ -424,10 +428,10 @@ void displayspecificflight()
     Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
     foreach (KeyValuePair<string, Flight> flight in airlineFlights)
     {
-        Airline airline1 = terminal.GetAirline(flight.Value);
-        if (airline1.Code == airlineCode)
+        
+        if (terminal.GetAirlineFromFlight(flight.Value).Code == airlineCode)
         {
-            Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
+            Console.WriteLine($"{flight.Value.FlightNumber,-16}{terminal.GetAirlineFromFlight(flight.Value).Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
         }
     }
 }
@@ -447,7 +451,7 @@ void modifyflights()
     string? airlinename = null;
     foreach (KeyValuePair<string, Flight> flight in airlineFlights)
     {
-        Airline airline1 = terminal.GetAirline(flight.Value);
+        Airline airline1 = terminal.GetAirlineFromFlight(flight.Value);
         if (airline1.Code == airlineCode)
         {
             Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
@@ -457,7 +461,7 @@ void modifyflights()
     Console.WriteLine("Choose an existing Flight to modify or delete: ");
     string? flightNumber = Console.ReadLine();
     string? specialCode = "code";
-    if (terminal.Flights.ContainsKey(flightNumber))
+    if (terminal.Flights.ContainsKey(flightNumber))// check which special request code the flight has
     {
         Flight flight1 = terminal.Flights[flightNumber];
 
@@ -478,7 +482,11 @@ void modifyflights()
             specialCode = "None";
         }
     }
-   
+    else 
+    {
+        Console.WriteLine("Invalid Flight Number");
+        return;
+    }
 
         foreach (var flight in airlineFlights)
         {
@@ -497,14 +505,14 @@ void modifyflights()
                     string? newOrigin = Console.ReadLine();
                     if (newOrigin != "Singapore (SIN)" && newOrigin != "Tokyo (NRT)" && newOrigin != "Kuala Lumpur (KUL)" && newOrigin != "Bangkok (BKK)" && newOrigin != "Dubai (DXB)" && newOrigin != "Manila (MNL)" && newOrigin != "London (LHR)" && newOrigin != "Hong Kong (HKD)" && newOrigin != "Sydney (SYD)" && newOrigin != "Jakarta (CGK)" && newOrigin != "Melbourne (MEL)")
                     {
-                        Console.WriteLine("Invalid Origin");
+                        Console.WriteLine("Invalid Origin (Please enter in the format: Country (XXX)");
                         return;
                     }
                     Console.Write("Enter new Destination: ");
                     string? newDestination = Console.ReadLine();
                     if (newDestination != "Singapore (SIN)" && newDestination != "Tokyo (NRT)" && newDestination != "Kuala Lumpur (KUL)" && newDestination != "Bangkok (BKK)" && newDestination != "Dubai (DXB)" && newDestination != "Manila (MNL)" && newDestination != "London (LHR)" && newDestination != "Hong Kong (HKD)" && newDestination != "Sydney (SYD)" && newDestination != "Jakarta (CGK)" && newDestination != "Melbourne (MEL)")
                     {
-                        Console.WriteLine("Invalid Destination");
+                        Console.WriteLine("Invalid Destination (Please enter in the format: Country (XXX)");
                         return;
                     }
                     DateTime newExpectedTime = DateTime.Now;
@@ -522,7 +530,7 @@ void modifyflights()
                             Console.WriteLine(ex.Message);
                         }
                     }
-                    Flight flight1 = terminal.Flights[flightNumber];
+                    Flight flight1 = terminal.Flights[flightNumber];//save the current flight details before updating them with the new ones
                     flight1.Origin = newOrigin;
                     flight1.Destination = newDestination;
                     flight1.ExpectedTime = newExpectedTime;
@@ -534,7 +542,7 @@ void modifyflights()
                     bool gateassigned = false;
                     foreach (var boardingGate in terminal.BoardingGates.Values)
                     {
-                        if (boardingGate.Flight != null)
+                        if (boardingGate.Flight != null)// check if the flight is already assigned to a boarding gate
                         {
                             Console.WriteLine($"Boarding Gate: {boardingGate.GateName}");
                             gateassigned = true;
@@ -584,13 +592,13 @@ void modifyflights()
                     {
                         newspecialcode = "None";
                     }
-                    Flight flight1 = terminal.Flights[flightNumber];
+                    Flight flight1 = terminal.Flights[flightNumber];//save the flight details before removing it
                     terminal.Flights.Remove(flightNumber);
                     
                     if (newspecialcode == "DDJB")
                     {
                         flight1 = new DDJBFlight(flightNumber,flight1.Origin, flight1.Destination, flight1.ExpectedTime);
-                        terminal.Flights.Add(flightNumber, flight1);
+                        terminal.Flights.Add(flightNumber, flight1);//add the flight back to the dictionary
                     }
                     else if (newspecialcode == "CFFT")
                     {
@@ -615,16 +623,16 @@ void modifyflights()
 
                     Console.Write("Enter new Boarding Gate: ");
                     string? newboardinggate = Console.ReadLine();
-                    bool gateassigned = false;
-                    
-                    
-                    
+                    bool gateassigned = false; // flag to check if gate is assigned
+
+
+
 
                     if (terminal.BoardingGates.ContainsKey(newboardinggate))
                     {
                         if (terminal.BoardingGates[newboardinggate].Flight == null)
                         {
-                            terminal.BoardingGates[newboardinggate].Flight = terminal.Flights[flightNumber];
+                            terminal.BoardingGates[newboardinggate].Flight = terminal.Flights[flightNumber]; // check if the flight is already assigned to a boarding gate
                             Console.WriteLine($"Flight {flightNumber} has been assigned to Boarding Gate {newboardinggate}!");
                             gateassigned = true;
                         }

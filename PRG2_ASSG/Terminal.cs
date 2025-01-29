@@ -46,7 +46,7 @@ namespace S10269334_PRG2Assignment
             BoardingGates[boardingGate.GateName] = boardingGate;
             return true;
         }
-        public Airline GetAirline(Flight flight)
+        public Airline GetAirlineFromFlight(Flight flight)
         {
             
             if (flight != null)
