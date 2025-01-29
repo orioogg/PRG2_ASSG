@@ -51,17 +51,10 @@ namespace S10269334_PRG2Assignment
             
             if (flight != null)
             {
-                string flightcode;
-                string s = flight.FlightNumber;
-                string[] arr = s.Trim().Split(' ');
-                flightcode = arr[0];
-                foreach (var kvp in Airlines)
+                string[] code = flight.FlightNumber.Split(' ');
+                if (Airlines.ContainsKey(code[0]))
                 {
-                    if (kvp.Value.Code == flightcode)
-                    {
-                        Airline airline1 = kvp.Value;
-                        return airline1;
-                    }
+                    return Airlines[code[0]];
                 }
             }
             return null;
