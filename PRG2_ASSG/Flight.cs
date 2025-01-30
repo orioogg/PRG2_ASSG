@@ -36,7 +36,7 @@ namespace S10269334_PRG2Assignment
 
         //public abstract double CalculateFees();
 
-        //to compare date time 
+        //to compare date time
         public DateTime.Days CompareTo(Flight t)
         {
             return ExpectedTime.CompareTo(t.ExpectedTime);

@@ -390,6 +390,11 @@ void CreateFlight()
         {
             Flight flight = new NORMFlight(flightNumber, origin, destination, expectedTime);
             terminal.Flights.Add(flightNumber, flight);
+            using (StreamWriter sw = new StreamWriter("flights.csv", true))
+            {
+                string data = flightNumber + "," + origin + "," + destination + "," + expectedTime;
+                sw.WriteLine(data);
+            }
         }
 
         using (StreamWriter sw = new StreamWriter("flights.csv", true))
@@ -416,50 +421,63 @@ void CreateFlight()
 //feature 7
 void displayspecificflight()
 {
-    Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================\r\nAirline Code    Airline Name\r\nSQ              Singapore Airlines\r\nMH              Malaysia Airlines\r\nJL              Japan Airlines\r\nCX              Cathay Pacific\r\nQF              Qantas Airways\r\nTR              AirAsia\r\nEK              Emirates\r\nBA              British Airways\r\nEnter Airline Code:\r");
+    Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================\r\nAirline Code    Airline Name");
+    foreach (var flight in terminal.Airlines)
+    {
+        Console.WriteLine($"{flight.Value.Code}              {flight.Value.Name}");
+    }
+    Console.WriteLine("Enter Airline Code:");
     string? airlineCode = Console.ReadLine().ToUpper();
-    if(airlineCode != "SQ" && airlineCode != "MH" && airlineCode != "JL" && airlineCode != "CX" && airlineCode != "QF" && airlineCode != "TR" && airlineCode != "EK" && airlineCode != "BA")
+
+    if (terminal.Airlines.ContainsKey(airlineCode)) 
+    {
+        Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
+
+        foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
+        {
+            Airline airline1 = terminal.GetAirlineFromFlight(flight.Value);
+            if (airline1.Code == airlineCode)
+            {
+                Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-23}");
+            }
+        }
+    }
+    else
     {
         Console.WriteLine("Invalid Airline Code");
-        return;
-    }
-    Dictionary <string, Flight> airlineFlights = new Dictionary<string, Flight>(terminal.Flights);
-    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================");
-    Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
-    foreach (KeyValuePair<string, Flight> flight in airlineFlights)
-    {
-        
-        if (terminal.GetAirlineFromFlight(flight.Value).Code == airlineCode)
-        {
-            Console.WriteLine($"{flight.Value.FlightNumber,-16}{terminal.GetAirlineFromFlight(flight.Value).Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
-        }
     }
 }
 //feature 8
 void modifyflights()
-{ 
-    Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================\r\nAirline Code    Airline Name\r\nSQ              Singapore Airlines\r\nMH              Malaysia Airlines\r\nJL              Japan Airlines\r\nCX              Cathay Pacific\r\nQF              Qantas Airways\r\nTR              AirAsia\r\nEK              Emirates\r\nBA              British Airways\r\nEnter Airline Code: ");
+{
+    Console.WriteLine("=============================================\r\nList of Airlines for Changi Airport Terminal 5\r\n=============================================\r\nAirline Code    Airline Name");
+    foreach (var flight in terminal.Airlines) 
+    {
+        Console.WriteLine($"{flight.Value.Code}              {flight.Value.Name}");
+    }
+    Console.WriteLine("Enter Airline Code:");
     string? airlineCode = Console.ReadLine().ToUpper();
-    if (airlineCode != "SQ" && airlineCode != "MH" && airlineCode != "JL" && airlineCode != "CX" && airlineCode != "QF" && airlineCode != "TR" && airlineCode != "EK" && airlineCode != "BA")
+    Dictionary<string, Flight> airlineFlights = new Dictionary<string, Flight>();
+    if (terminal.Airlines.ContainsKey(airlineCode))
+    {
+        Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
+
+        foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
+        {
+            Airline airline1 = terminal.GetAirlineFromFlight(flight.Value);
+            if (airline1.Code == airlineCode)
+            {
+                Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-23}");
+                airlineFlights.Add(flight.Key, flight.Value);
+            }
+        }
+    }
+    else
     {
         Console.WriteLine("Invalid Airline Code");
-        return;
-    }
-    Dictionary<string, Flight> airlineFlights = new Dictionary<string, Flight>(terminal.Flights);
-    Console.WriteLine("=============================================\r\nList of Flights for Changi Airport Terminal 5\r\n=============================================");
-    Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
-    string? airlinename = null;
-    foreach (KeyValuePair<string, Flight> flight in airlineFlights)
-    {
-        Airline airline1 = terminal.GetAirlineFromFlight(flight.Value);
-        if (airline1.Code == airlineCode)
-        {
-            Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
-        }
-        airlinename = airline1.Name;
     }
     Console.WriteLine("Choose an existing Flight to modify or delete: ");
-    string? flightNumber = Console.ReadLine();
+    string? flightNumber = Console.ReadLine().ToUpper();
     string? specialCode = "code";
     if (terminal.Flights.ContainsKey(flightNumber))// check which special request code the flight has
     {
@@ -534,7 +552,7 @@ void modifyflights()
                     flight1.Origin = newOrigin;
                     flight1.Destination = newDestination;
                     flight1.ExpectedTime = newExpectedTime;
-
+                    string airlinename=terminal.GetAirlineFromFlight(flight1).Name;
 
                     Console.WriteLine("Flight updated!");
                     
