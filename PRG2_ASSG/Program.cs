@@ -514,20 +514,10 @@ void modifyflights()
                 if (option1 == "1")
                 {
 
-                    Console.Write("Enter new Origin: ");
+                    Console.Write("Enter new Origin (Country (XXX)): ");
                     string? newOrigin = Console.ReadLine();
-                    if (newOrigin != "Singapore (SIN)" && newOrigin != "Tokyo (NRT)" && newOrigin != "Kuala Lumpur (KUL)" && newOrigin != "Bangkok (BKK)" && newOrigin != "Dubai (DXB)" && newOrigin != "Manila (MNL)" && newOrigin != "London (LHR)" && newOrigin != "Hong Kong (HKD)" && newOrigin != "Sydney (SYD)" && newOrigin != "Jakarta (CGK)" && newOrigin != "Melbourne (MEL)")
-                    {
-                        Console.WriteLine("Invalid Origin (Please enter in the format: Country (XXX)");
-                        return;
-                    }
-                    Console.Write("Enter new Destination: ");
+                    Console.Write("Enter new Destination (Country (XXX)): ");
                     string? newDestination = Console.ReadLine();
-                    if (newDestination != "Singapore (SIN)" && newDestination != "Tokyo (NRT)" && newDestination != "Kuala Lumpur (KUL)" && newDestination != "Bangkok (BKK)" && newDestination != "Dubai (DXB)" && newDestination != "Manila (MNL)" && newDestination != "London (LHR)" && newDestination != "Hong Kong (HKD)" && newDestination != "Sydney (SYD)" && newDestination != "Jakarta (CGK)" && newDestination != "Melbourne (MEL)")
-                    {
-                        Console.WriteLine("Invalid Destination (Please enter in the format: Country (XXX)");
-                        return;
-                    }
                     DateTime newExpectedTime = DateTime.Now;
                     while (true)
                     {
