@@ -21,7 +21,7 @@ namespace S10269334_PRG2Assignment
 
         public DateTime ExpectedTime { get; set; }
 
-        public string Status { get; set; }= "Scheduled";
+        public string Status { get; set; } = "Scheduled";
 
         //constructor
 
@@ -36,10 +36,10 @@ namespace S10269334_PRG2Assignment
 
         //public abstract double CalculateFees();
 
-        //to compare date time
-        public DateTime.Days CompareTo(Flight t)
+        //to compare flight times
+        public int CompareTo(Flight other)
         {
-            return ExpectedTime.CompareTo(t.ExpectedTime);
+            return ExpectedTime.CompareTo(other.ExpectedTime);
         }
 
         public override string ToString()

@@ -6,6 +6,7 @@
 //==========================================================
 using S10269334_PRG2Assignment;
 using System;
+using System.Collections.Immutable;
 using System.ComponentModel.Design;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -60,7 +61,8 @@ while (true)
     }
     else if (option == "7")
     {
-       
+       CompareFlights();
+       print4spaces();
     }
     else if (option == "0")
     {
@@ -273,8 +275,6 @@ void AssignBoardingGate()
                               $"\r\nSpecial Request Code: {specialCode}");
             foreach (var boardingGate in terminal.BoardingGates.Values)
             {
-                
-                
                     if (boardingName == boardingGate.GateName)    //check if boarding gate entered is in the dictionary
                     {
                         gateFound = true;
@@ -290,8 +290,7 @@ void AssignBoardingGate()
                             Console.WriteLine("This boarding gate has already been assigned to another flight. Please try again.");
                         return;
                         }
-                    }
-                
+                    }  
             }
             if (!gateFound)
             {
@@ -674,4 +673,51 @@ void modifyingoptions()
 {
     Console.WriteLine("1. Modify Basic Information\r\n2. Modify Status\r\n3. Modify Special Request Code\r\n4. Modify Boarding Gate");
     Console.WriteLine("Choose an option:");
+}
+
+//feature 9
+void CompareFlights()
+{
+    List<Flight> sortedFlights = new List<Flight>(terminal.Flights.Values);
+    sortedFlights.Sort();
+    string specialCode = "";
+    Console.WriteLine("=============================================\r\nFlight Schedule for Changi Airport Terminal 5\r\n=============================================\r\n");
+    foreach (var flight in sortedFlights)
+    {
+        //if (flight is DDJBFlight)
+        //{
+        //    specialCode = "DDJB";
+        //}
+        //else if (flight is CFFTFlight)
+        //{
+        //    specialCode = "CFFT";
+        //}
+        //else if (flight is LWTTFlight)
+        //{
+        //    specialCode = "LWTT";
+        //}
+        //else if (flight is NORMFlight)
+        //{
+        //    specialCode = "None";
+        //}
+        string assignedGate = "none";
+        foreach (var boardingGate in terminal.BoardingGates.Values)
+        {
+            if (boardingGate.Flight != null)
+            {
+                assignedGate = boardingGate.GateName;
+            }
+            else if ((boardingGate.Flight == null))
+            {
+                assignedGate = "Unassigned";
+            }
+        }
+        Airline airline = terminal.GetAirlineFromFlight(flight);
+        //prints heading
+        Console.WriteLine("{0,-15} {1,-22} {2,-22} {3,-22} {4,-34} {5,-15} {6,-13}","Flight Number","Airline Name","Origin","Destination",
+                          "ExpectedDeparture/Arrival Time","Status","Boarding Gate");
+        Console.WriteLine("{0,-15} {1,-22} {2,-22} {3,-22} {4,-34} {5,-15} {6,-13}", flight.FlightNumber, airline.Name, flight.Origin, flight.Destination,
+                            flight.ExpectedTime, flight.Status, assignedGate);
+    }
+    
 }
