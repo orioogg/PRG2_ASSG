@@ -26,7 +26,7 @@ void print4spaces()
 
 while (true)
 {
-    Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\nPlease select your option:");
+    Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n8. Auto assign boarding gates in bulk\r\n0. Exit\r\nPlease select your option:");
     string option = Console.ReadLine();
     if (option == "1")
     {
@@ -131,7 +131,7 @@ while (true)
         }
 
         int assignedflights = 0;
-        if (unassignedflights.Count > 0)
+        if (unassignedflights.Count > 0)//check if there are any unassigned flights
         {
             Console.WriteLine($"{"Flight Number",-16}{"Airline Name",-23}{"Origin",-23}{"Destination",-23}{"Expected Departure/Arrival Time",-35}{"Special Request Code",-23}Boarding Gate");
         }
@@ -192,7 +192,7 @@ while (true)
             double percentage = (double)assignedcount / (double)alrassigned * 100;
             Console.WriteLine($"Percentage of flights assigned to boarding gates: {percentage.ToString("0.00")}%");
         }
-
+        print4spaces();
     }
     else
     {
