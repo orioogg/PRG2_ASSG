@@ -390,11 +390,6 @@ void CreateFlight()
         {
             Flight flight = new NORMFlight(flightNumber, origin, destination, expectedTime);
             terminal.Flights.Add(flightNumber, flight);
-            using (StreamWriter sw = new StreamWriter("flights.csv", true))
-            {
-                string data = flightNumber + "," + origin + "," + destination + "," + expectedTime;
-                sw.WriteLine(data);
-            }
         }
 
         using (StreamWriter sw = new StreamWriter("flights.csv", true))
