@@ -31,10 +31,9 @@ namespace S10269334_PRG2Assignment
             Origin = origin;
             Destination = destination;
             ExpectedTime = expectedTime;
-          
         }
 
-        //public abstract double CalculateFees();
+        //public double CalculateFees();
 
         //to compare flight times
         public int CompareTo(Flight other)
