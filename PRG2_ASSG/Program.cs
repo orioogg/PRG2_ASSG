@@ -626,10 +626,6 @@ void modifyflights()
                     Console.Write("Enter new Boarding Gate: ");
                     string? newboardinggate = Console.ReadLine();
                     bool gateassigned = false; // flag to check if gate is assigned
-
-
-
-
                     if (terminal.BoardingGates.ContainsKey(newboardinggate))
                     {
                         if (terminal.BoardingGates[newboardinggate].Flight == null)
@@ -702,16 +698,16 @@ void CompareFlights()
         //{
         //    specialCode = "None";
         //}
-        string assignedGate = "none";
+        string assignedGate = "Unassigned";
         foreach (var boardingGate in terminal.BoardingGates.Values)
         {
             if (boardingGate.Flight != null)
             {
-                assignedGate = boardingGate.GateName;
-            }
-            else if ((boardingGate.Flight == null))
-            {
-                assignedGate = "Unassigned";
+                if (boardingGate.Flight.FlightNumber == flight.FlightNumber)
+                {
+                    assignedGate = boardingGate.GateName;
+                    break;
+                }
             }
         }
         Airline airline = terminal.GetAirlineFromFlight(flight);
