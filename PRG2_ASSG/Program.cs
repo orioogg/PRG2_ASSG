@@ -16,7 +16,6 @@ LoadBoardingGate();
 LoadFlights();
 Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n{terminal.Flights.Count} Flights Loaded!\r\n");
 print4spaces();
-
 void print4spaces()
 {
     Console.WriteLine();
@@ -27,7 +26,7 @@ void print4spaces()
 
 while (true)
 {
-    Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit\r\nPlease select your option:");
+    Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n8. Auto assign boarding gates in bulk\r\n0. Exit\r\nPlease select your option:");
     string option = Console.ReadLine();
     if (option == "1")
     {
@@ -39,7 +38,7 @@ while (true)
         printboardinggate();
         print4spaces();
     }
-    else if (option == "3") 
+    else if (option == "3")
     {
         AssignBoardingGate();
         print4spaces();
@@ -56,22 +55,148 @@ while (true)
     }
     else if (option == "6")
     {
-       modifyflights();
-       print4spaces();
+        modifyflights();
+        print4spaces();
     }
     else if (option == "7")
     {
-       CompareFlights();
-       print4spaces();
+        CompareFlights();
+        print4spaces();
     }
     else if (option == "0")
     {
         Console.WriteLine("GoodBye!");
         break;
     }
+    else if (option == "8")
+    {
+        //advanced feature (a)
+        int assignedcount = 0;
+        int alrassigned = 0;
+        Queue<Flight> unassignedflights = new Queue<Flight>();
+        
+
+        foreach (var flight in terminal.Flights.Values)
+        {
+            var cflight=getDetails(flight.FlightNumber, flight);
+            
+            if (cflight.BoardingGateName == "")
+            {
+                unassignedflights.Enqueue(flight);
+            }
+            else
+            {
+                alrassigned++;
+            }
+            
+        }
+
+        int unassignedcount = unassignedflights.Count;
+        Console.WriteLine($"There are {unassignedcount} unassigned flights.");
+        int count = 0;
+        foreach (var gate in terminal.BoardingGates.Values)
+        {
+            if (gate.Flight == null)
+            {
+                count++;
+            }
+        }
+        Console.WriteLine($"There are {count} unassigned gates.");
+        List<BoardingGate> normlist= new List<BoardingGate>();
+        List<BoardingGate> ddjblist = new List<BoardingGate>();
+        List<BoardingGate> cfftlist = new List<BoardingGate>();
+        List<BoardingGate> lwttlist = new List<BoardingGate>();
+        foreach (var gate in terminal.BoardingGates.Values)
+        {
+            if (gate.SupportDDJB&&gate.Flight==null)//check if the gate supports DDJB and if it is already assigned
+            {
+                ddjblist.Add(gate);//add the gate to the list of gates that support DDJB
+
+            }
+            if (gate.SupportCFFT && gate.Flight == null)
+            {
+                cfftlist.Add(gate);
+                
+            }
+            if (gate.SupportLWTT && gate.Flight == null)
+            {
+                lwttlist.Add(gate);
+                
+            }
+            else if (!gate.SupportLWTT&&!gate.SupportDDJB&& !gate.SupportCFFT &&gate.Flight== null)
+            {
+                normlist.Add(gate);
+                
+            }
+        }
+
+        int assignedflights = 0;
+        if (unassignedflights.Count > 0)//check if there are any unassigned flights
+        {
+            Console.WriteLine($"{"Flight Number",-16}{"Airline Name",-23}{"Origin",-23}{"Destination",-23}{"Expected Departure/Arrival Time",-35}{"Special Request Code",-23}Boarding Gate");
+        }
+        while (unassignedflights.Count > 0) 
+        {
+            
+            Flight flight = unassignedflights.Dequeue();
+            var cflight = terminal.Flights[flight.FlightNumber];
+            var details = getDetails(cflight.FlightNumber, cflight);
+            BoardingGate assignedGate = null;//assign the flight to the boarding gate
+            if (cflight is NORMFlight && normlist.Count > 0)
+            {
+                assignedGate = normlist[0];
+                normlist.RemoveAt(0);
+            }
+            else if (cflight is DDJBFlight && ddjblist.Count > 0)
+            {
+                assignedGate = ddjblist[0];
+                ddjblist.RemoveAt(0);
+            }
+            else if (cflight is CFFTFlight && cfftlist.Count > 0)
+            {
+                assignedGate = cfftlist[0];
+                cfftlist.RemoveAt(0);
+            }
+            else if (cflight is LWTTFlight && lwttlist.Count > 0)
+            {
+                assignedGate = lwttlist[0];
+                lwttlist.RemoveAt(0);
+            }
+            if (assignedGate != null)
+            {
+                if (terminal.BoardingGates.ContainsKey(assignedGate.GateName))
+                {
+                    if (terminal.BoardingGates[assignedGate.GateName].Flight != null)
+                    {
+                        Console.WriteLine($"Error: Boarding gate {assignedGate.GateName} is already occupied by flight {terminal.BoardingGates[assignedGate.GateName].Flight.FlightNumber}");//check if the gate is already assigned
+                        continue;
+                    }
+                }
+                assignedGate.Flight = cflight;
+                terminal.BoardingGates[assignedGate.GateName].Flight = cflight;
+                assignedflights++;
+                assignedcount++;
+
+                Console.WriteLine($"{cflight.FlightNumber,-16}{terminal.GetAirlineFromFlight(cflight).Name,-23}{cflight.Origin,-23}{cflight.Destination,-23}{cflight.ExpectedTime,-35}{details.Code,-23}{assignedGate.GateName}");
+            }
+        }
+        
+        Console.WriteLine($"There are {assignedflights} flights assigned to boarding gates");
+        Console.WriteLine($"There are {assignedcount} boarding gates assigned to flights");
+        if(alrassigned==0&&assignedcount!=0)
+        {
+            Console.WriteLine($"Cant be converted in to a percentage as there were no flights that were already assigned");
+        }
+        else
+        {
+            double percentage = (double)assignedcount / (double)alrassigned * 100;
+            Console.WriteLine($"Percentage of flights assigned to boarding gates: {percentage.ToString("0.00")}%");
+        }
+        print4spaces();
+    }
     else
     {
-        Console.WriteLine("Please enter only options 0 to 7.");
+        Console.WriteLine("Please enter only options 0 to 8.");
         print4spaces();
 
     }
@@ -715,4 +840,35 @@ void CompareFlights()
                             flight.ExpectedTime, flight.Status, assignedGate);
     }
     
+}
+(string Code,string BoardingGateName) getDetails(string BoardingGate, Flight flight)
+{
+    string Code = "";
+    if (flight is DDJBFlight)
+    {
+        Code="DDJB";
+    }
+    else if (flight is CFFTFlight)
+    {
+        Code="CFFT";
+    }
+    else if (flight is LWTTFlight)
+    {
+        Code="LWTT";
+    }
+    else
+    {
+        Code="None";
+    }
+    string BoardingGateName = "";
+    foreach(var boardingGate in terminal.BoardingGates.Values)
+    {
+        if (boardingGate.Flight == flight)
+        {
+            BoardingGateName = boardingGate.GateName;
+        }
+    }
+
+    return (Code, BoardingGateName);
+
 }
