@@ -181,6 +181,7 @@ while (true)
                 terminal.BoardingGates[assignedGate.GateName].Flight = cflight;
                 assignedflights++;
                 assignedcount++;
+                cflight.Status = "On time";
 
                 Console.WriteLine($"{cflight.FlightNumber,-16}{terminal.GetAirlineFromFlight(cflight).Name,-23}{cflight.Origin,-23}{cflight.Destination,-23}{cflight.ExpectedTime,-35}{details.Code,-23}{assignedGate.GateName}");
             }
