@@ -827,7 +827,13 @@ void CompareFlights()
                           "ExpectedDeparture/Arrival Time", "Status", "Boarding Gate");
     foreach (var flight in sortedFlights)
     {
+        
         string BoardingGateName = getDetails("Unassigned", flight).BoardingGateName;
+        if (BoardingGateName == "") 
+        {
+            BoardingGateName = "Unassigned";
+        }
+        
 
         Airline airline = terminal.GetAirlineFromFlight(flight);
         Console.WriteLine("{0,-15} {1,-22} {2,-22} {3,-22} {4,-34} {5,-15} {6,-13}", flight.FlightNumber, airline.Name, flight.Origin, flight.Destination,
@@ -854,7 +860,7 @@ void CompareFlights()
     {
         Code = "None";
     }
-    string BoardingGateName = "Unassigned";
+    string BoardingGateName = "";
     foreach(var boardingGate in terminal.BoardingGates.Values)
     {
         if (boardingGate.Flight == flight)
