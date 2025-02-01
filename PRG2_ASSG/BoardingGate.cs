@@ -14,36 +14,35 @@ namespace S10269334_PRG2Assignment
     class BoardingGate
     {
         public string GateName { get; set; }
-        public bool SupportCFFT { get; set; }
-        public bool SupportDDJB { get; set; }
-        public bool SupportLWTT { get; set; }
+        public bool SupportsCFFT { get; set; }
+        public bool SupportsDDJB { get; set; }
+        public bool SupportsLWTT { get; set; }
         public Flight Flight { get; set; } = null;
-        public BoardingGate(string gateName, bool supportCFFT, bool supportDDJB, bool supportLWTT)
+        public BoardingGate(string gateName, bool supportsCFFT, bool supportsDDJB, bool supportsLWTT)
         {
             GateName = gateName;
-            SupportCFFT = supportCFFT;
-            SupportDDJB = supportDDJB;
-            SupportLWTT = supportLWTT;
+            SupportsCFFT = supportsCFFT;
+            SupportsDDJB = supportsDDJB;
+            SupportsLWTT = supportsLWTT;
         }
 
 
-        //public double CalculateFees() 
-        //{
-        //    double baseFee = 300; // Base fee for the gate
-        //    if (Flight == null) return 0; // No flight, no fee
+        public double CalculateFees()
+        {
+            double baseFee = 300; // Base fee for the gate
+            if (Flight == null) return 0; // No flight, no fee
 
-        //    // Calculate fees based on gate capabilities (not the flight)
-        //    if (SupportCFFT) baseFee += 150;
-        //    if (SupportDDJB) baseFee += 300;
-        //    if (SupportLWTT) baseFee += 500;
-
-        //    return baseFee;
-        //}
+            //// Calculate fees based on gate capabilities (not the flight)
+            //if (SupportsCFFT) baseFee += 150;
+            //if (SupportsDDJB) baseFee += 300;
+            //if (SupportsLWTT) baseFee += 500;
+            return baseFee;
+        }
 
 
         public override string ToString()
         {
-            return $"{GateName}: DDJB={SupportDDJB}, CFFT={SupportCFFT}, LWTT={SupportLWTT}";
+            return $"{GateName}: DDJB={SupportsDDJB}, CFFT={SupportsCFFT}, LWTT={SupportsLWTT}";
 
         }
     }

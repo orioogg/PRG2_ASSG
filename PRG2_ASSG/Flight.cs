@@ -33,7 +33,19 @@ namespace S10269334_PRG2Assignment
             ExpectedTime = expectedTime;
         }
 
-        //public double CalculateFees();
+        public virtual double CalculateFees()
+        {
+            double fee = 0;
+            if (Origin == "Singapore")
+            {
+                fee = 800;
+            }
+            else if (Destination == "Singapore")
+            {
+                fee = 500;
+            }
+            return fee;
+        }
 
         //to compare flight times
         public int CompareTo(Flight other)

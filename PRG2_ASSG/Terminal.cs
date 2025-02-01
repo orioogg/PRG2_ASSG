@@ -60,11 +60,15 @@ namespace S10269334_PRG2Assignment
             return null;
             
         }
-      
-        //public void PrintAirlineFees()
-        //{
 
-        //}
+        public void PrintAirlineFees()
+        {
+            foreach (var airline in Airlines.Values)
+            {
+                double fee = airline.CalculateFees();
+                Console.WriteLine(fee);
+            }
+        }
         //public override string ToString()
         //{
         //    return "Terminal Name: " + TerminalName +
