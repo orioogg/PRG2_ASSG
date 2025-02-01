@@ -570,6 +570,7 @@ void displayspecificflight()
 
     if (terminal.Airlines.ContainsKey(airlineCode)) 
     {
+        Console.WriteLine($"=============================================\nList of Flights for {terminal.Airlines[airlineCode].Name}\n=============================================");
         Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
 
         foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
@@ -597,8 +598,12 @@ void modifyflights()
     Console.WriteLine("Enter Airline Code:");
     string? airlineCode = Console.ReadLine().ToUpper();
     Dictionary<string, Flight> airlineFlights = new Dictionary<string, Flight>();
+    
+    
     if (terminal.Airlines.ContainsKey(airlineCode))
     {
+
+        Console.WriteLine($"=============================================\nList of Flights for {terminal.Airlines[airlineCode].Name}\n=============================================");//print the airline name
         Console.WriteLine("Flight Number   Airline Name               Origin                 Destination            Expected Departure/Arrival Time");
 
         foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
