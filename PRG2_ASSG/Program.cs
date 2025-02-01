@@ -833,8 +833,6 @@ void CompareFlights()
         {
             BoardingGateName = "Unassigned";
         }
-        
-
         Airline airline = terminal.GetAirlineFromFlight(flight);
         Console.WriteLine("{0,-15} {1,-22} {2,-22} {3,-22} {4,-34} {5,-15} {6,-13}", flight.FlightNumber, airline.Name, flight.Origin, flight.Destination,
                             flight.ExpectedTime, flight.Status, BoardingGateName);
