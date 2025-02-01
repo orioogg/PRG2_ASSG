@@ -906,4 +906,3 @@ void CalculateFees()
                   $"Total fee before discount: {fee}");
     }
 }
-
