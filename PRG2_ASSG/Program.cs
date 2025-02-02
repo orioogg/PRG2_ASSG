@@ -28,6 +28,7 @@ void print4spaces()
 
 while (true)
 {
+    getthelocations();
     Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n8. Auto assign boarding gates in bulk\r\n9. Display Fees\r\n0. Exit\r\n\r\nPlease select your option:");
     string option = Console.ReadLine();
     if (option == "1")
@@ -562,8 +563,23 @@ void CreateFlight()
             }
             Console.WriteLine("Enter Origin: ");
             string origin = Console.ReadLine();
+            if(!Locations.Contains(origin))
+            {
+                Console.WriteLine("Invalid Origin. Please enter a valid location.");
+                continue;
+            }
             Console.WriteLine("Enter Destination: ");
             string destination = Console.ReadLine();
+            if (!Locations.Contains(destination))
+            {
+                Console.WriteLine("Invalid Destination. Please enter a valid location.");
+                continue;
+            }
+            if (origin == destination)
+            {
+                Console.WriteLine("Origin and Destination cannot be the same.");
+                continue;
+            }
             Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
             DateTime expectedTime = Convert.ToDateTime(Console.ReadLine());
 
@@ -739,8 +755,23 @@ void modifyflights()
 
                     Console.Write("Enter new Origin (Country (XXX)): ");
                     string? newOrigin = Console.ReadLine();
+                    if(!Locations.Contains(newOrigin))
+                    {
+                        Console.WriteLine("Invalid Origin. Please enter a valid location.");
+                        return;
+                    }
                     Console.Write("Enter new Destination (Country (XXX)): ");
                     string? newDestination = Console.ReadLine();
+                    if (!Locations.Contains(newDestination))
+                    {
+                        Console.WriteLine("Invalid Destination. Please enter a valid location.");
+                        return;
+                    }
+                    if (newOrigin == newDestination)
+                    {
+                        Console.WriteLine("Origin and Destination cannot be the same.");
+                        return;
+                    }
                     DateTime newExpectedTime = DateTime.Now;
                     while (true)
                     {
@@ -1016,4 +1047,17 @@ void CalculateFees()
     Console.WriteLine($"Final Total Fees to be Collected: {totalFeesForTerminal}");
     Console.WriteLine($"Discount Percentage: {totalDiscount / totalFeesForTerminal * 100}%");
 }
-
+void getthelocations()
+{
+    foreach (var flight in terminal.Flights.Values)
+    {
+        if (!Locations.Contains(flight.Origin))
+        {
+            Locations.Add(flight.Origin);
+        }
+        if (!Locations.Contains(flight.Destination))
+        {
+            Locations.Add(flight.Destination);
+        }
+    }
+}
