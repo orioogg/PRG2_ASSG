@@ -9,8 +9,9 @@ using System;
 using System.Collections.Immutable;
 using System.ComponentModel.Design;
 using System.Reflection.Metadata.Ecma335;
+using System.Threading.Channels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-
+List<string> Locations = new List<string>();
 Terminal terminal = new Terminal("Terminal 5");
 LoadAirlines();
 LoadBoardingGate();
@@ -27,6 +28,7 @@ void print4spaces()
 
 while (true)
 {
+    GetThePlace();
     Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n8. Auto assign boarding gates in bulk\r\n9. Display Fees\r\n0. Exit\r\n\r\nPlease select your option:");
     string option = Console.ReadLine();
     if (option == "1")
@@ -559,10 +561,10 @@ void CreateFlight()
                 Console.WriteLine($"Flight {flightNumber} already exists. Please enter a unique flight number.");
                 continue;
             }
-            string origin = GetLocation("Enter Origin: ", true);
-
-            string destination = GetLocation("Enter Destination: ", false);
-
+            Console.WriteLine("Enter Origin: ");
+            string origin = Console.ReadLine();
+            Console.WriteLine("Enter Destination: ");
+            string destination = Console.ReadLine();
             Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
             DateTime expectedTime = Convert.ToDateTime(Console.ReadLine());
 
@@ -634,30 +636,30 @@ string GetLocation(string prompt,bool isOrigin)
 {
     string? location = "";
     bool isValid = false;   //flag to check if input is valid
-    while (!isValid)  //keeps prompting user until isValid is true
+    while (!isValid)
     {
-        Console.Write(prompt);   
+        Console.Write(prompt);
         location = Console.ReadLine();
         foreach (var flight in terminal.Flights.Values)
         {
-            if (isOrigin)  //checks if its origin 
+            if (isOrigin)
             {
-                if (flight.Origin.ToLower() == location.ToLower())    //if location entered is valid
+                if (flight.Origin.ToLower() == location.ToLower())
                 {
-                    isValid = true;   
+                    isValid = true;
                     break;
                 }
             }
-            else   //checks if its destination
+            else
             {
-                if (flight.Destination.ToLower() == location.ToLower())   
+                if (flight.Destination.ToLower() == location.ToLower())
                 {
                     isValid = true; 
                     break;
                 }
             }
         }
-        if (!isValid)  //if location cannot be found
+        if (!isValid)
         {
             Console.WriteLine("Invalid location entered. Please try again.");
         }
@@ -1049,4 +1051,18 @@ void CalculateFees()
     Console.WriteLine($"Total Discounts to be Deducted: {totalDiscount}");
     Console.WriteLine($"Final Total Fees to be Collected: {totalFeesForTerminal}");
     Console.WriteLine($"Discount Percentage: {totalDiscount / totalFeesForTerminal * 100}%");
+}
+void GetThePlace() 
+{
+    foreach (var flight in terminal.Flights.Values)
+    {
+        if (!Locations.Contains(flight.Origin))
+        {
+            Locations.Add(flight.Origin);
+        }
+        if (!Locations.Contains(flight.Destination))
+        {
+            Locations.Add(flight.Destination);
+        }
+    }
 }
