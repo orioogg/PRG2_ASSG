@@ -313,7 +313,7 @@ void LoadFlights()
             {
                 string[] flights = s.Split(",");
 
-                if (flights.Length < 4 || flights.Length > 5)
+                if (flights.Length < 4 || flights.Length > 5) //checks if there are extra info
                 {
                     Console.WriteLine("Skipping invalid row.");
                     continue;
@@ -323,7 +323,7 @@ void LoadFlights()
                 string destination = flights[2];
                 DateTime expectedTime = Convert.ToDateTime(flights[3]);
 
-                if(terminal.Flights.ContainsKey(flightNumber))
+                if(terminal.Flights.ContainsKey(flightNumber))  //checks for duplicates
                 {
                     Console.WriteLine("Skipping duplicate flight.");
                 }
@@ -385,7 +385,7 @@ void DisplayFlights()
     {
         foreach (KeyValuePair<string, Flight> flight in terminal.Flights)
         {
-            Airline airline1 = terminal.GetAirlineFromFlight(flight.Value);
+            Airline airline1 = terminal.GetAirlineFromFlight(flight.Value);   //get airline from method
             Console.WriteLine($"{flight.Value.FlightNumber,-16}{airline1.Name,-27}{flight.Value.Origin,-23}{flight.Value.Destination,-23}{flight.Value.ExpectedTime,-20}");
         }
     }
@@ -418,8 +418,8 @@ void AssignBoardingGate()
         {
             Console.WriteLine("Enter Flight Number: ");        //prompt user for flight number
             string? flightNumber = Console.ReadLine().ToUpper();
-            flight = FindFlight(flightNumber);
-            if (flight != null)
+            flight = FindFlight(flightNumber);     //calls method
+            if (flight != null)    //if flight is not found
             {
                 break;
             }
@@ -484,7 +484,7 @@ void AssignBoardingGate()
                         flight.Status = "On Time";
                         break;
                     }
-                    else
+                    else   //if user enters something other than the options given
                     {
                         Console.WriteLine("Invalid option. Please try again.");
                         continue;
@@ -509,6 +509,7 @@ void AssignBoardingGate()
     }
 }   
 
+//method to find flight 
 Flight? FindFlight(string flightNumber)
 {
     foreach (var flight in terminal.Flights.Values)
@@ -519,6 +520,7 @@ Flight? FindFlight(string flightNumber)
             return flight;
         }
     }
+    //if flight not found
     return null;
 }
 BoardingGate? FindBoardingGate(string boardingName)
@@ -543,9 +545,9 @@ void CreateFlight()
     {
         try
         {
-            Console.Write("Enter Flight Number: ");
+            Console.Write("Enter Flight Number: ");    //prompts user for flight number
             string? flightNumber = Console.ReadLine().ToUpper();
-            if (string.IsNullOrWhiteSpace(flightNumber))
+            if (string.IsNullOrWhiteSpace(flightNumber))   //if empty
             {
                 Console.WriteLine("Flight number cannot be empty. Please try again.");
                 continue;
@@ -560,6 +562,7 @@ void CreateFlight()
             string origin = GetLocation("Enter Origin: ", true);
 
             string destination = GetLocation("Enter Destination: ", false);
+
             Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
             DateTime expectedTime = Convert.ToDateTime(Console.ReadLine());
 
@@ -597,7 +600,7 @@ void CreateFlight()
 
             using (StreamWriter sw = new StreamWriter("flights.csv", true))
             {
-                if (specialCode == "None")
+                if (specialCode == "None")   //if there is no special request code
                 {
                     string data = flightNumber + "," + origin + "," + destination + "," + expectedTime;
                     sw.WriteLine(data);
@@ -631,30 +634,30 @@ string GetLocation(string prompt,bool isOrigin)
 {
     string? location = "";
     bool isValid = false;   //flag to check if input is valid
-    while (!isValid)
+    while (!isValid)  //keeps prompting user until isValid is true
     {
-        Console.Write(prompt);
+        Console.Write(prompt);   
         location = Console.ReadLine();
         foreach (var flight in terminal.Flights.Values)
         {
-            if (isOrigin)
+            if (isOrigin)  //checks if its origin 
             {
-                if (flight.Origin.ToLower() == location.ToLower())
+                if (flight.Origin.ToLower() == location.ToLower())    //if location entered is valid
                 {
-                    isValid = true;
+                    isValid = true;   
                     break;
                 }
             }
-            else
+            else   //checks if its destination
             {
-                if (flight.Destination.ToLower() == location.ToLower())
+                if (flight.Destination.ToLower() == location.ToLower())   
                 {
                     isValid = true; 
                     break;
                 }
             }
         }
-        if (!isValid)
+        if (!isValid)  //if location cannot be found
         {
             Console.WriteLine("Invalid location entered. Please try again.");
         }
@@ -929,8 +932,8 @@ void modifyingoptions()
 //feature 9
 void CompareFlights()
 {
-    List<Flight> sortedFlights = new List<Flight>(terminal.Flights.Values);
-    sortedFlights.Sort();
+    List<Flight> sortedFlights = new List<Flight>(terminal.Flights.Values);  //store flights dict in list
+    sortedFlights.Sort();     //sort flights
     if (terminal.Flights == null || terminal.Flights.Count == 0)
     {
         Console.WriteLine("No flights available for comparison.");
@@ -944,7 +947,7 @@ void CompareFlights()
     {
         
         string BoardingGateName = getDetails("Unassigned", flight).BoardingGateName;
-        if (BoardingGateName == "") 
+        if (BoardingGateName == "")  //if boarding gate name is not assigned
         {
             BoardingGateName = "Unassigned";
         }
@@ -988,7 +991,7 @@ void CompareFlights()
     return (Code,BoardingGateName);
 }
 
-//advanced feature
+//advanced feature b
 void CalculateFees()
 {
     double? totalFeesForTerminal = 0;
@@ -1005,11 +1008,12 @@ void CalculateFees()
                 Console.WriteLine("No airlines found.");
             }
             string BoardingGateName = getDetails("Unassigned", flight).BoardingGateName;
-            if (BoardingGateName == "")
+            if (BoardingGateName == "")  //ensures that boarding gate has been assigned
             {
                 Console.WriteLine("Please ensure that you have assigned boarding gates for each of the flights.");
                 return;
             }
+            //checks if there is special request code and calls the calculate fees method
             if (flight is NORMFlight)
             {
                 flightFee = flight.CalculateFees();
@@ -1026,13 +1030,14 @@ void CalculateFees()
             {
                 flightFee = flight.CalculateFees();
             }
-            flightFee += 300;
+            flightFee += 300;   //adds boarding gate fee
 
             airlineFee += flightFee;  
         }
-        airlineDiscount = airline.CalculateFees();
+        airlineDiscount = airline.CalculateFees();  //call airline method to get discount
         totalFeesForTerminal += airlineFee;
         totalDiscount += airlineDiscount;
+        //print fees for each airline
         Console.WriteLine($"==================== Total Fees for {airline.Name} ====================");
         Console.WriteLine($"Total Discount: {airlineDiscount}");
         Console.WriteLine($"Final Total Fees to be Collected: {airlineFee}");
