@@ -1036,9 +1036,9 @@ void CalculateFees()
         totalFeesForTerminal += airlineFee;
         totalDiscount += airlineDiscount;
         Console.WriteLine($"==================== Total Fees for {airline.Name} ====================");
-        Console.WriteLine($"Total Discount for {airline.Name}: {airlineDiscount:C}");
-        Console.WriteLine($"Final Total Fees to be Collected for {airline.Name}: {airlineFee:C}");
-        Console.WriteLine($"Discount Percentage for {airline.Name}: {(airlineDiscount / airlineFee * 100):F2}%");
+        Console.WriteLine($"Total Discount: {airlineDiscount:C}");
+        Console.WriteLine($"Final Total Fees to be Collected: {airlineFee:C}");
+        Console.WriteLine($"Discount Percentage: {(airlineDiscount / airlineFee * 100):F2}%");
 
     }
     Console.WriteLine("\n==================== Total for Terminal =====================");
