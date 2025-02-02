@@ -554,6 +554,34 @@ void CreateFlight()
                 Console.WriteLine("Flight number cannot be empty. Please try again.");
                 continue;
             }
+            if (flightNumber.Length != 6) 
+            {
+                Console.WriteLine("Please enter a valid Flight number.c");
+                continue;
+            }
+            string[] flightNumberArray = flightNumber.Split(" ");
+            if (flightNumberArray.Length != 2)
+            {
+                Console.WriteLine("Please enter a valid Flight number.b");
+                continue;
+            }
+            if (flightNumberArray[0].Length != 2 || flightNumberArray[1].Length != 3)
+            {
+                Console.WriteLine("Please enter a valid Flight number.a");
+                continue;
+            }
+            int num = Convert.ToInt32(flightNumberArray[1]);
+            if (num < 1 || num > 999)
+            {
+                Console.WriteLine("Please enter a valid Flight number.s");
+                continue;
+            }
+            if (!terminal.Airlines.ContainsKey(flightNumberArray[0]))  //check if airline code entered is valid
+            {
+                Console.WriteLine("Invalid Airline Code. Please enter a valid airline code.");
+                continue;
+            }
+
 
             //check if flight number entered is already in the dict
             if (terminal.Flights.ContainsKey(flightNumber))
