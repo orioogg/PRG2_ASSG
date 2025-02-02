@@ -23,8 +23,7 @@ namespace S10269334_PRG2Assignment
 
         public override double CalculateFees()
         {
-            double fee = base.CalculateFees();
-            fee += RequestFee;
+            double fee = RequestFee + base.CalculateFees();
             return fee;
         }
         public override string ToString()

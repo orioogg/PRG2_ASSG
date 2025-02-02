@@ -38,28 +38,29 @@ namespace S10269334_PRG2Assignment
             TimeSpan endTime = new TimeSpan(21,0,0);
             foreach (var flight in Flights.Values)
             {
-                totalFee = flight.CalculateFees();
+                double flightFee = flight.CalculateFees();
                 if (Flights.Count > 5)
                 {
-                    double discount = 0.03 * totalFee;
-                    totalFee -= discount;
+                    double discount = 0.03 * flightFee;
+                    flightFee -= discount;
                 }
                 else if (counter != 0)
                 {
-                    totalFee -= 350 * counter;
+                    flightFee -= 350 * counter;
                 }
                 else if (flight.ExpectedTime.TimeOfDay >= startTime && flight.ExpectedTime.TimeOfDay <= endTime)
                 {
-                    totalFee -= 110;
+                    flightFee -= 110;
                 }
                 else if (flight.Origin == "Bangkok (BKK)" || flight.Origin == "Dubai (DXB)" || flight.Origin == "Tokyo (NRT)")
                 {
-                    totalFee -= 25;
+                    flightFee -= 25;
                 }
                 else if (flight is NORMFlight)
                 {
-                    totalFee -= 50;
+                    flightFee -= 50;
                 }
+                totalFee += flightFee;
             }
             return totalFee;
         }
