@@ -472,18 +472,22 @@ void AssignBoardingGate()
                     if (option == "1")
                     {
                         flight.Status = "Delayed";
+                        break;
                     }
                     else if (option == "2")
                     {
                         flight.Status = "Boarding";
+                        break;
                     }
                     else if (option == "3")
                     {
                         flight.Status = "On Time";
+                        break;
                     }
                     else
                     {
                         Console.WriteLine("Invalid option. Please try again.");
+                        continue;
                     }
                 }
                 else if (input == "N")
@@ -987,64 +991,64 @@ void CompareFlights()
 //advanced feature
 void CalculateFees()
 {
-    double totalFeesForTerminal = 0;  // track the total fees for the terminal
-    double totalDiscount = 0;  // track the total discount for the terminal
-
+    double? totalFeesForTerminal = 0;
+    double? totalDiscount = 0;
     foreach (var airline in terminal.Airlines.Values)
     {
-        double airlineFee = 0;  // track the total fees for this airline
-        double airlineDiscount = 0;  // track the total discount for this airline
-
-        // calculate the fee for each flight in the airline
+        double? airlineFee = 0;
+        double? flightFee = 0;
+        double? airlineDiscount = 0;
         foreach (var flight in airline.Flights.Values)
         {
             if (terminal.Airlines.Values.Count == 0)
             {
                 Console.WriteLine("No airlines found.");
+            }
+            string BoardingGateName = getDetails("Unassigned", flight).BoardingGateName;
+            if (BoardingGateName == "")
+            {
+                Console.WriteLine("Please ensure that you have assigned boarding gates for each of the flights.");
                 return;
             }
+            if (flight is NORMFlight)
+            {
+                flightFee = flight.CalculateFees();
+            }
+            else if (flight is CFFTFlight)
+            {
+                flightFee = flight.CalculateFees();
+            }
+            else if (flight is LWTTFlight)
+            {
+                flightFee = flight.CalculateFees();
+            }
+            else if (flight is DDJBFlight)
+            {
+                flightFee = flight.CalculateFees();
+            }
+            flightFee += 300;
 
-            // ensure each flight has a boarding gate assigned (check removed for now)
-            string BoardingGateName = getDetails("Unassigned", flight).BoardingGateName;
-            //if (BoardingGateName == "")
-            //{
-            //    Console.WriteLine("Please ensure that you have assigned boarding gates for each of the flights.");
-            //    return;
-            //}
+            airlineFee += flightFee;
 
-            // calculate the fees for each flight
-            double flightFee = flight.CalculateFees();  // base fee for the flight (may include special request fees)
-            flightFee += 300;  // add the boarding gate fee
+            Console.WriteLine($"{airline.Name}'s Total Fee Before Discount: {airlineFee}");
 
-            airlineFee += flightFee;  // add the flight's fee to the airline's total fee
+            airlineDiscount = airline.CalculateFees();
+
+            // Display the final fee after discount
+            Console.WriteLine($"{airline.Name}'s Final Fee After Discount: {airlineFee}");
         }
-
-        // apply any discounts for this airline after calculating the total fee
-        airlineDiscount = airline.CalculateFees();  
-        double finalAirlineFee = airlineFee - airlineDiscount;  // subtract discount from airline fee
-
-        if (finalAirlineFee < 0)  // ensure fee doesn't go below 0
-        {
-            finalAirlineFee = 0;
-        }
-
-        // add the final airline fee to the terminal's total fee
-        totalFeesForTerminal += finalAirlineFee;
-        totalDiscount += airlineDiscount;  // Add discount to total discount
-
-        // print the airline's fees before and after discount
+        airlineFee -= airlineDiscount;
+        totalFeesForTerminal += airlineFee;
+        totalDiscount += airlineDiscount;
         Console.WriteLine($"==================== Total Fees for {airline.Name} ====================");
-        Console.WriteLine($"Total Discount: ${airlineDiscount:F2}");
-        Console.WriteLine($"Final Total Fees to be Collected for {airline.Name}: ${finalAirlineFee:F2}");
+        Console.WriteLine($"Total Discount for {airline.Name}: {airlineDiscount:C}");
+        Console.WriteLine($"Final Total Fees to be Collected for {airline.Name}: {airlineFee:C}");
+        Console.WriteLine($"Discount Percentage for {airline.Name}: {(airlineDiscount / airlineFee * 100):F2}%");
+
     }
-
-    // print the total fees and discount percentages for the terminal
     Console.WriteLine("\n==================== Total for Terminal =====================");
-    Console.WriteLine($"Total Fees for Terminal: ${totalFeesForTerminal:F2}");
-    Console.WriteLine($"Total Discounts to be Deducted: ${totalDiscount:F2}");
-    Console.WriteLine($"Final Total Fees to be Collected: ${totalFeesForTerminal:F2}");
-
-    // calculate and display the discount percentage for the terminal
-    double discountPercentage = (totalDiscount / totalFeesForTerminal) * 100;
-    Console.WriteLine($"Discount Percentage: {discountPercentage:F2}%");
+    Console.WriteLine($"Total Fees for Terminal: {totalFeesForTerminal}");
+    Console.WriteLine($"Total Discounts to be Deducted: {totalDiscount}");
+    Console.WriteLine($"Final Total Fees to be Collected: {totalFeesForTerminal}");
+    Console.WriteLine($"Discount Percentage: {totalDiscount / totalFeesForTerminal * 100}%");
 }
