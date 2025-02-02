@@ -32,36 +32,37 @@ namespace S10269334_PRG2Assignment
         }
         public double CalculateFees() 
         {
-            int counter = Flights.Count / 3;
             double totalFee = 0;
+            double totalBeforeDiscount = 0;
             TimeSpan startTime = new TimeSpan(11, 0, 0);
             TimeSpan endTime = new TimeSpan(21,0,0);
+
             foreach (var flight in Flights.Values)
             {
                 double flightFee = flight.CalculateFees();
-                if (Flights.Count > 5)
-                {
-                    double discount = 0.03 * flightFee;
-                    flightFee -= discount;
-                }
-                else if (counter != 0)
-                {
-                    flightFee -= 350 * counter;
-                }
-                else if (flight.ExpectedTime.TimeOfDay >= startTime && flight.ExpectedTime.TimeOfDay <= endTime)
+                if (flight.ExpectedTime.TimeOfDay < startTime && flight.ExpectedTime.TimeOfDay > endTime)
                 {
                     flightFee -= 110;
                 }
-                else if (flight.Origin == "Bangkok (BKK)" || flight.Origin == "Dubai (DXB)" || flight.Origin == "Tokyo (NRT)")
+                if (flight.Origin == "Bangkok (BKK)" || flight.Origin == "Dubai (DXB)" || flight.Origin == "Tokyo (NRT)")
                 {
                     flightFee -= 25;
                 }
-                else if (flight is NORMFlight)
+                if (flight is NORMFlight)
                 {
                     flightFee -= 50;
                 }
+                totalBeforeDiscount += flightFee;
                 totalFee += flightFee;
             }
+            if (Flights.Count > 5)
+            {
+                double discount = 0.03 * totalBeforeDiscount;
+                totalBeforeDiscount -= discount;
+            }
+
+            int flightSets = Flights.Count / 3;
+            totalFee -= 350 * flightSets;
             return totalFee;
         }
         public bool RemoveFlight(Flight flight)
