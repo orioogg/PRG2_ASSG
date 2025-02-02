@@ -1005,11 +1005,11 @@ void CalculateFees()
                 Console.WriteLine("No airlines found.");
             }
             string BoardingGateName = getDetails("Unassigned", flight).BoardingGateName;
-            //if (BoardingGateName == "")
-            //{
-            //    Console.WriteLine("Please ensure that you have assigned boarding gates for each of the flights.");
-            //    return;
-            //}
+            if (BoardingGateName == "")
+            {
+                Console.WriteLine("Please ensure that you have assigned boarding gates for each of the flights.");
+                return;
+            }
             if (flight is NORMFlight)
             {
                 flightFee = flight.CalculateFees();
@@ -1044,5 +1044,5 @@ void CalculateFees()
     Console.WriteLine($"Total Fees for Terminal: {totalFeesForTerminal}");
     Console.WriteLine($"Total Discounts to be Deducted: {totalDiscount}");
     Console.WriteLine($"Final Total Fees to be Collected: {totalFeesForTerminal}");
-    Console.WriteLine($"Discount Percentage: {totalDiscount / totalFeesForTerminal * 100}%");
+    Console.WriteLine($"Discount Percentage: {(totalDiscount / totalFeesForTerminal * 100):F2}%");
 }
