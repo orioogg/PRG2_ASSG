@@ -205,7 +205,7 @@ while (true)
     }
     else
     {
-        Console.WriteLine("Please enter only options 0 to 8.");
+        Console.WriteLine("Please enter only options 0 to 9.");
         print4spaces();
 
     }
