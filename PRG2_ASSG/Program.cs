@@ -143,17 +143,17 @@ while (true)
         {
             Console.WriteLine($"{"Flight Number",-16}{"Airline Name",-23}{"Origin",-23}{"Destination",-23}{"Expected Departure/Arrival Time",-35}{"Special Request Code",-23}Boarding Gate");
         }
-        while (unassignedflights.Count > 0) 
+        while (unassignedflights.Count > 0) //assign the flights to the boarding gates
         {
             
             Flight flight = unassignedflights.Dequeue();
-            var cflight = terminal.Flights[flight.FlightNumber];
-            var details = getDetails(cflight.FlightNumber, cflight);
+            var cflight = terminal.Flights[flight.FlightNumber];//get the flight from the terminal dictionary
+            var details = getDetails(cflight.FlightNumber, cflight);//get the special request code of the flight
             BoardingGate assignedGate = null;//assign the flight to the boarding gate
             if (cflight is NORMFlight && normlist.Count > 0)
             {
-                assignedGate = normlist[0];
-                normlist.RemoveAt(0);
+                assignedGate = normlist[0];//assign the flight to the first gate in the list
+                normlist.RemoveAt(0);//remove the gate from the list
             }
             else if (cflight is DDJBFlight && ddjblist.Count > 0)
             {
@@ -170,7 +170,7 @@ while (true)
                 assignedGate = lwttlist[0];
                 lwttlist.RemoveAt(0);
             }
-            if (assignedGate != null)
+            if (assignedGate != null)//check if the gate is already assigned
             {
                 if (terminal.BoardingGates.ContainsKey(assignedGate.GateName))
                 {
@@ -180,8 +180,8 @@ while (true)
                         continue;
                     }
                 }
-                assignedGate.Flight = cflight;
-                terminal.BoardingGates[assignedGate.GateName].Flight = cflight;
+                
+                terminal.BoardingGates[assignedGate.GateName].Flight = cflight;//assign the flight to the gate
                 assignedflights++;
                 assignedcount++;
                 cflight.Status = "On time";
@@ -556,24 +556,24 @@ void CreateFlight()
             }
             if (flightNumber.Length != 6) 
             {
-                Console.WriteLine("Please enter a valid Flight number.c");
+                Console.WriteLine("Please enter a valid Flight number.");
                 continue;
             }
             string[] flightNumberArray = flightNumber.Split(" ");
             if (flightNumberArray.Length != 2)
             {
-                Console.WriteLine("Please enter a valid Flight number.b");
+                Console.WriteLine("Please enter a valid Flight number.");
                 continue;
             }
             if (flightNumberArray[0].Length != 2 || flightNumberArray[1].Length != 3)
             {
-                Console.WriteLine("Please enter a valid Flight number.a");
+                Console.WriteLine("Please enter a valid Flight number.");
                 continue;
             }
             int num = Convert.ToInt32(flightNumberArray[1]);
             if (num < 1 || num > 999)
             {
-                Console.WriteLine("Please enter a valid Flight number.s");
+                Console.WriteLine("Please enter a valid Flight number.");
                 continue;
             }
             if (!terminal.Airlines.ContainsKey(flightNumberArray[0]))  //check if airline code entered is valid
@@ -743,7 +743,7 @@ void modifyflights()
     string? specialCode = "code";
     if (terminal.Flights.ContainsKey(flightNumber))// check which special request code the flight has
     {
-        Flight flight1 = terminal.Flights[flightNumber];
+        Flight flight1 = terminal.Flights[flightNumber];//store the flight details in a variable
 
         if (flight1 is DDJBFlight)
         {
@@ -770,8 +770,8 @@ void modifyflights()
 
         foreach (var flight in airlineFlights)
         {
-            if (flight.Key == flightNumber)
-            {
+            if (flight.Key == flightNumber)//check if the flight number entered is in the dictionary
+        {
             Console.WriteLine("1.Modify Flight\n2.Delete Flight\nChoose an option:");
             string? option = Console.ReadLine();
             if (option == "1")
@@ -1073,7 +1073,7 @@ void CalculateFees()
     Console.WriteLine($"Total Fees for Terminal: {totalFeesForTerminal}");
     Console.WriteLine($"Total Discounts to be Deducted: {totalDiscount}");
     Console.WriteLine($"Final Total Fees to be Collected: {totalFeesForTerminal}");
-    Console.WriteLine($"Discount Percentage: {totalDiscount / totalFeesForTerminal * 100}%");
+    Console.WriteLine($"Discount Percentage: {(totalDiscount / totalFeesForTerminal * 100):F2}%");
 }
 void getthelocations()
 {
