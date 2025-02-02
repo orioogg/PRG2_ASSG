@@ -36,11 +36,11 @@ namespace S10269334_PRG2Assignment
         public virtual double CalculateFees()
         {
             double fee = 0;
-            if (Origin == "Singapore")
+            if (Origin == "Singapore (SIN)")
             {
                 fee = 800;
             }
-            else if (Destination == "Singapore")
+            else if (Destination == "Singapore (SIN)")
             {
                 fee = 500;
             }
