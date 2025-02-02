@@ -28,7 +28,6 @@ void print4spaces()
 
 while (true)
 {
-    GetThePlace();
     Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n8. Auto assign boarding gates in bulk\r\n9. Display Fees\r\n0. Exit\r\n\r\nPlease select your option:");
     string option = Console.ReadLine();
     if (option == "1")
@@ -1017,17 +1016,4 @@ void CalculateFees()
     Console.WriteLine($"Final Total Fees to be Collected: {totalFeesForTerminal}");
     Console.WriteLine($"Discount Percentage: {totalDiscount / totalFeesForTerminal * 100}%");
 }
-void GetThePlace() 
-{
-    foreach (var flight in terminal.Flights.Values)
-    {
-        if (!Locations.Contains(flight.Origin))
-        {
-            Locations.Add(flight.Origin);
-        }
-        if (!Locations.Contains(flight.Destination))
-        {
-            Locations.Add(flight.Destination);
-        }
-    }
-}
+
