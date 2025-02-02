@@ -631,41 +631,7 @@ void CreateFlight()
 }
 
 
-//to check if user input is valid for origin and destination
-string GetLocation(string prompt,bool isOrigin)
-{
-    string? location = "";
-    bool isValid = false;   //flag to check if input is valid
-    while (!isValid)
-    {
-        Console.Write(prompt);
-        location = Console.ReadLine();
-        foreach (var flight in terminal.Flights.Values)
-        {
-            if (isOrigin)
-            {
-                if (flight.Origin.ToLower() == location.ToLower())
-                {
-                    isValid = true;
-                    break;
-                }
-            }
-            else
-            {
-                if (flight.Destination.ToLower() == location.ToLower())
-                {
-                    isValid = true; 
-                    break;
-                }
-            }
-        }
-        if (!isValid)
-        {
-            Console.WriteLine("Invalid location entered. Please try again.");
-        }
-    }
-    return location;
-}
+
 
 //feature 7
 void displayspecificflight()
