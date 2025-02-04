@@ -18,6 +18,7 @@ LoadBoardingGate();
 LoadFlights();
 Console.WriteLine($"Loading Airlines...\r\n{terminal.Airlines.Count} Airlines Loaded!\r\nLoading Boarding Gates...\r\n{terminal.BoardingGates.Count} Boarding Gates Loaded!\r\nLoading Flights...\r\n{terminal.Flights.Count} Flights Loaded!\r\n");
 print4spaces();
+Console.Write("");
 void print4spaces()
 {
     Console.WriteLine();
@@ -579,8 +580,6 @@ void CreateFlight()
                 Console.WriteLine("Invalid Airline Code. Please enter a valid airline code.");
                 continue;
             }
-
-
             //check if flight number entered is already in the dict
             if (terminal.Flights.ContainsKey(flightNumber))
             {
@@ -962,7 +961,6 @@ void modifyflights()
                 if (terminal.Flights.ContainsKey(flightNumber))
                 {
                     terminal.Flights.Remove(flightNumber);
-                    
                 }
 
 
