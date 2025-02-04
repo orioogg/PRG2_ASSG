@@ -949,14 +949,20 @@ void modifyflights()
                 //}
                 Flight flight1 = terminal.Flights[flightNumber];
 
+                if(flight1.Status != "Scheduled")
+                {
+                    foreach (var boardingGate in terminal.BoardingGates.Values)
+                    {
+                        if (boardingGate.Flight == flight1)
+                        {
+                            boardingGate.Flight = null;
+                        }
+                    }
+                }
                 if (terminal.Flights.ContainsKey(flightNumber))
                 {
                     terminal.Flights.Remove(flightNumber);
-                    if (terminal.BoardingGates.ContainsKey(flight1.FlightNumber))
-                    {
-                        BoardingGate gate = terminal.BoardingGates[flightNumber];
-                        gate.Flight = null;
-                    }
+                    
                 }
 
 
