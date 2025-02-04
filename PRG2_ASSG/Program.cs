@@ -172,14 +172,12 @@ while (true)
             }
             if (assignedGate != null)//check if the gate is already assigned
             {
-                if (terminal.BoardingGates.ContainsKey(assignedGate.GateName))
-                {
                     if (terminal.BoardingGates[assignedGate.GateName].Flight != null)
                     {
                         Console.WriteLine($"Error: Boarding gate {assignedGate.GateName} is already occupied by flight {terminal.BoardingGates[assignedGate.GateName].Flight.FlightNumber}");//check if the gate is already assigned
                         continue;
                     }
-                }
+                
                 
                 terminal.BoardingGates[assignedGate.GateName].Flight = cflight;//assign the flight to the gate
                 assignedflights++;
@@ -198,7 +196,7 @@ while (true)
         }
         else
         {
-            double percentage = (double)assignedcount / (double)alrassigned * 100;
+            double percentage =( (double)assignedcount / (double)alrassigned) * 100;
             Console.WriteLine($"Percentage of flights assigned to boarding gates: {percentage.ToString("0.00")}%");
         }
         print4spaces();
@@ -421,7 +419,7 @@ void AssignBoardingGate()
             Console.WriteLine("Enter Flight Number: ");        //prompt user for flight number
             string? flightNumber = Console.ReadLine().ToUpper();
             flight = FindFlight(flightNumber);     //calls method
-            if (flight != null)    //if flight is not found
+            if (flight != null)    //if flight is found
             {
                 break;
             }
@@ -608,8 +606,10 @@ void CreateFlight()
                 Console.WriteLine("Origin and Destination cannot be the same.");
                 continue;
             }
+            
             Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
             DateTime expectedTime = Convert.ToDateTime(Console.ReadLine());
+
 
 
             Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
@@ -937,12 +937,30 @@ void modifyflights()
                     }
 
                 }
-                else if (option == "2")
+    
+                }
+            else if (option == "2")
+            {
+                //Flight flight1 = terminal.Flights[flightNumber];
+                //if (terminal.BoardingGates.ContainsKey(flightNumber))
+                //{
+                //    BoardingGate gate = terminal.BoardingGates[flightNumber];
+                //    gate.Flight = null;
+                //}
+                Flight flight1 = terminal.Flights[flightNumber];
+
+                if (terminal.Flights.ContainsKey(flightNumber))
                 {
                     terminal.Flights.Remove(flightNumber);
-                    Console.WriteLine("Flight Deleted!");
+                    if (terminal.BoardingGates.ContainsKey(flight1.FlightNumber))
+                    {
+                        BoardingGate gate = terminal.BoardingGates[flightNumber];
+                        gate.Flight = null;
+                    }
                 }
 
+
+                Console.WriteLine("Flight Deleted!");
             }
         }
      }
@@ -1016,6 +1034,7 @@ void CompareFlights()
     return (Code,BoardingGateName);
 }
 
+
 //advanced feature b
 void CalculateFees()
 {
@@ -1031,6 +1050,7 @@ void CalculateFees()
             if (terminal.Airlines.Values.Count == 0)
             {
                 Console.WriteLine("No airlines found.");
+     
             }
             string BoardingGateName = getDetails("Unassigned", flight).BoardingGateName;
             if (BoardingGateName == "")  //ensures that boarding gate has been assigned

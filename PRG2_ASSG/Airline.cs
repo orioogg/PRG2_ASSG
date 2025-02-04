@@ -40,30 +40,33 @@ namespace S10269334_PRG2Assignment
             foreach (var flight in Flights.Values)
             {
                 double flightFee = flight.CalculateFees();
-                if (flight.ExpectedTime.TimeOfDay < startTime && flight.ExpectedTime.TimeOfDay > endTime)
+                totalBeforeDiscount += flightFee;
+            }
+            if (Flights.Count > 5)
+               {
+                   double discount = 0.03 * totalBeforeDiscount;
+                   totalBeforeDiscount -= discount;
+               }
+            foreach (var flight in Flights.Values)
+            {
+                if (flight.ExpectedTime.TimeOfDay < startTime || flight.ExpectedTime.TimeOfDay > endTime)
                 {
-                    flightFee -= 110;
+                    totalFee += 110;
                 }
                 if (flight.Origin == "Bangkok (BKK)" || flight.Origin == "Dubai (DXB)" || flight.Origin == "Tokyo (NRT)")
                 {
-                    flightFee -= 25;
+                    totalFee += 25;
                 }
                 if (flight is NORMFlight)
                 {
-                    flightFee -= 50;
+                    totalFee += 50;
                 }
-                totalBeforeDiscount += flightFee;
-                totalFee += flightFee;
-            }
-            if (Flights.Count > 5)
-            {
-                double discount = 0.03 * totalBeforeDiscount;
-                totalBeforeDiscount -= discount;
+
             }
 
             int flightSets = Flights.Count / 3;
-            totalFee -= 350 * flightSets;
-            return totalFee;
+            totalFee += 350 * flightSets;
+            return totalBeforeDiscount-totalFee;
         }
         public bool RemoveFlight(Flight flight)
         {
